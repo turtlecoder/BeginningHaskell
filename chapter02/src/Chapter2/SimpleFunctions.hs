@@ -136,6 +136,10 @@ getDiscount timeMachines discount =
       (TimeMachine manf model (TimeMachineSpecs name td (Price (p*(1-discount))))):(getDiscount rest discount)
     [] -> []
 
+getDiscountR :: [TimeMachineSpecsR] -> Double -> [TimeMachineSpecsR]
+getDiscountR [] _ = []
+getDiscountR ( tm @ (TimeMachineSpecsR {price=Price(p)}) :rest) discount = (tm { price = Price(p*(1-discount)) } ) : (getDiscountR rest discount)
+
 
 (+//+) :: [a] -> [a] -> [a]
 list1 +//+ list2 = case list1 of
@@ -203,4 +207,3 @@ greet2 CompanyR    { clientRName } = "Hello, " ++ clientRName
 greet2 GovOrgR     { }             = "Welcome" 
                             
                             
-                 
