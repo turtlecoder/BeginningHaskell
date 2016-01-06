@@ -1,4 +1,6 @@
 {-# LANGUAGE ExplicitForAll #-}
+{-# LANGUAGE LambdaCase #-}
+
 
 module Chapter03.ParamPoly where
 
@@ -47,4 +49,25 @@ index (x:xs) = let indexed@((n,_):_) = index xs
 maybeA::[a] -> Char 
 maybeA [] = 'a'
 
+map2 _ [] = []
+map2 f (x:xs) = (f x) : (map f xs)
 
+apply3f2 :: (Integer -> Integer) -> Integer -> Integer
+apply3f2 f x = 3 * f ( x + 2 )
+
+($$) :: (a->b) -> a -> b
+f $$ a = f a
+
+equalTuples::[(Integer, Integer)]->[Bool]
+equalTuples t = map (\(x,y)->x==y) t
+
+sayHello::[String] -> [String]
+sayHello names = map ( \name -> case name of
+                         "Alejandro" -> "Hello, Writer"
+                         _           -> "Welcome, " ++ name ) names
+
+
+sayHello2::[String] -> [String]
+sayHello2 names = map (\case "Alejandro" -> "Hello, writer"
+                             name        -> "Welcome, " ++ name
+                             ) names
