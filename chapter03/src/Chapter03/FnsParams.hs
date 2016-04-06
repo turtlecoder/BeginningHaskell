@@ -34,5 +34,8 @@ filterGovOrgs clients = filter (\aClient -> case aClient of
 
 filterGovOrgsUsingLambdaCase clients = filter (\case GovOrg _ _ -> True
                                                      _          -> False) clients
+{-
+Performs the parallel composition of two functions (i.e., each of them is applied to a component of a tuple
+-}
 (***) :: (a->b)->(c->d) -> ((a,c) -> (b,d))
 f *** g = \(x,y) -> (f x, g y)
