@@ -32,7 +32,7 @@ data Spec = Forward | Backward
 data Price = Price Double
              deriving Show
 
-data ClientR =   GovOrgR { clientRName :: String}
+data ClientR =   GovOrgR { clientRName :: String }
                | CompanyR { clientRName :: String
                             , companyID :: Integer
                             , personR :: PersonR
