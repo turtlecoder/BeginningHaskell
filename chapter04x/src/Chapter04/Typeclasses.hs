@@ -7,3 +7,4 @@ class Nameable n where
 
 class Priceable p where
   getPrice::p -> Double
+  
