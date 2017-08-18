@@ -4,23 +4,7 @@ import Data.List
 import Data.Default
 import qualified Data.Map as M
 
-class (Default v, Ord v) => Vector v where
-  distance :: v -> v -> Double
-  centroid :: [v] -> v
-
-instance Vector (Double, Double) where
-  distance (a,b) (c,d) = sqrt $ (c-a) * (c-a) + (d-b) * (d-b)
-  centroid lst = let (u,v) = foldr (\(a,b) (c,d) -> (a+c, b+d)) (0.0, 0.0) lst
-                     n = fromIntegral $ length lst
-                     in
-                   (u/n, v/n)
-  
-class Vector v => Vectorizable e v where
-  toVector :: e -> v
-
-instance Vectorizable (Double, Double) (Double, Double) where
-  toVector = id
-
+import VectorData
 
 
 clusterAssignmentPhase :: (Vector v, Vectorizable e v) => [v] -> [e] -> M.Map v [e]
@@ -44,19 +28,21 @@ kMeans :: (Vector v , Vectorizable e v) =>
        -> Int                 -- Number of centroids
        -> [e]                 -- the information
        -> Double              -- threshold
-       -> [v]                 -- final centroids
-kMeans i k points = kMeans' (i k points) points
+       -> ([v], Int)          -- final centroids
+kMeans i k points = kMeans' 1 (i k points) points
 
 
-kMeans' :: (Vector v, Vectorizable e v) => [v] -> [e] -> Double -> [v]
-kMeans' centroids points threshold =
+-- Excercise 6-1: Solution with tne number of Steps
+
+kMeans' :: (Vector v, Vectorizable e v) => Int -> [v] -> [e] -> Double -> ([v], Int)
+kMeans' step centroids points threshold =
   let assignments = clusterAssignmentPhase centroids points
       oldNewCentroids = newCentroidPhase assignments
       newCentroids = map snd oldNewCentroids
   in
     if shouldStop oldNewCentroids threshold
-    then newCentroids
-    else kMeans' newCentroids points threshold
+    then (newCentroids, step)
+    else kMeans' (step+1) newCentroids points threshold
 
 
 initializeSimple :: Int -> [e] -> [(Double, Double)]
