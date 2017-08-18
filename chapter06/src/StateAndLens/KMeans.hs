@@ -1,16 +1,21 @@
-module KMeansStateLens where
+module KMeans where
 
 import KMeansDataLens
 import VectorData
 import Control.Monad.State
 import qualified Data.Map as M
 import Data.List
+import Control.Lens
 
 kMeans' :: (Vector v, Vectorizable e v ) => [e] -> State (KMeansState v) [v]
 kMeans' points = do prevCentrs <- use centroids
                     let assignments = clusterAssignments prevCentrs points
                         newCentrs = newCentroids assignments
                     centroids .= newCentrs
+                    steps += 1
+                    let err = sum $ zipWith distance prevCentrs newCentrs
+                    t <- use threshold
+                    if err < t then return newCentrs else kMeans' points
 
 
 clusterAssignments :: (Vector v , Vectorizable e v) => [v] -> [e] -> M.Map v [e]
