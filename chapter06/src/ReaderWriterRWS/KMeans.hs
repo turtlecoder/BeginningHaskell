@@ -14,13 +14,7 @@ data Settings e v = Settings { i :: Int ->[e] -> [v]
                              , user :: Person
                              }
 
-kMeansMain :: (Vector v, Vectorizable e v ) => [e] -> Reader (Settings e v) [v]
-kMeansMain points = do i' <- asks i
-                       k' <- asks k
-                       th' <- asks th
-                       return $ kMeans i' k' points th'
 
-  
 kMeans :: (Vector v, Vectorizable e v) => (Int -> [e] -> [v]) -> Int -> [e] -> Double -> ([v], Sum Int)
 -- kMeans i k pts t = fst $ kMeans' pts (initialState  i k pts t)
 kMeans i n pts t = execRWS (kMeans' pts) t (i n pts)
