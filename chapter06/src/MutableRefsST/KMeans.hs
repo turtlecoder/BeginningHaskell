@@ -19,7 +19,7 @@ clusterAssignments centrs points =
 newCentroids :: (Vector v, Vectorizable e v ) => M.Map v [e] -> [v]
 newCentroids = M.elems . fmap (centroid. map toVector)
 
--- Excercise 6-7 Solutin, Untested, Probably works
+-- Excercise 6-7 Solution, Untested, Probably works
 
 kMeans' :: (Vector v, Vectorizable e v) => [v] -> [e] -> Double -> (Int, [v])
 kMeans' centroids points threshold = runST $ do
@@ -35,7 +35,7 @@ kMeans' centroids points threshold = runST $ do
             newCenters = newCentroids assignments
         writeSTRef centroidsST newCenters
         let err = sum $ zipWith distance centroids' newCenters
-        if err < th then (return (step', newCenters))
+        if err < th then return (step', newCenters)
         else kMeansST th stepST centroidsST
 
         
