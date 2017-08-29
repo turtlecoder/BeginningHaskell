@@ -1,11 +1,7 @@
 module SearchProblems.LogicMonad where
 
 import Control.Monad.Logic
-
-
-
-graph2 :: [(Int, Int)]
-graph2 = [(2013, 501), (501, 2558), (501, 1004) , (1004, 501), (2013, 2558)]
+import Common
 
 
 pathsL :: [(Int, Int)] -> Int -> Int -> Logic [Int]

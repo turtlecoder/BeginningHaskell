@@ -43,3 +43,16 @@ sequence (mx:mxs) = do x <- mx
                        return $ x:xs
 
 mapM f ma = sequence.fmap f $ ma
+
+
+--
+
+factorialSteps :: Integer -> Writer (Sum Integer) Integer
+factorialSteps n = foldM (\f x -> tell (Sum 1) >> return (f*x)) 1 [ 1 .. n ]
+
+f6 = factorialSteps 6 
+
+--
+
+powerSet :: [a] -> [[a]]
+powerSet xl = filterM (\_ -> [False, True]) xl
