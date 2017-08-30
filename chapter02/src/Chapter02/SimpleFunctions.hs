@@ -7,6 +7,12 @@ module Chapter02.SimpleFunctions where
 import Chapter02.DataTypes
 import Data.Char
 
+
+-- Excercise 2-1
+
+l1 = ['a','b', 'c']:['d','e']:[]
+l2 = []:[]
+
 firstOrEmpty :: [[Char]] -> [Char]
 firstOrEmpty lst = if not (null lst) then head lst else "empty"
 
@@ -47,6 +53,9 @@ clientName2 (Individual (Person fName lName _) _) = fName ++ " " ++ lName
 fibonacii 0 = 0
 fibonacci 1 = 1
 fibonacci n = fibonacci(n-1) + fibonacci (n-2)
+
+
+-- Excercise 2-5
 
 countGendersHelper :: [Client]->Int->Int -> (Int, Int)
 countGendersHelper [] m f = (m,f)
@@ -96,6 +105,8 @@ specialMultiples n
   | multipleOf n 3 = show n ++ " is multiple of 3"
   | multipleOf n 5 = show n ++ " is multiple of 5"
   | otherwise      = show n ++ " is a beautiful numebr"
+
+-- Excercise 2-6
 
 ackermann :: Integer -> Integer -> Integer
 ackermann m n
@@ -160,3 +171,5 @@ discountTMRPriceRHelper ((tm @ (TimeMachineR { price = p })):tl) disc accum =
 
 
 discountTMRPrice tmlst disc = discountTMRPriceRHelper tmlst disc []
+
+

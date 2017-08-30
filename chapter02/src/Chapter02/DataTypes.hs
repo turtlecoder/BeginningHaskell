@@ -8,7 +8,7 @@ data Client =   GovOrg String
 data Person = Person String String Gender
               deriving Show
 
-
+-- Excercise 2-4
 data Gender = Male | Female | Unknown
             deriving Show
 
@@ -45,7 +45,7 @@ data PersonR = PersonR { firstRName :: String
                          , lastRName :: String
                          } deriving Show
 
-
+-- Excercise 2-7
 data TimeMachineR = TimeMachineR { manufacturer :: String
                                    , model :: Integer
                                    , name :: String
