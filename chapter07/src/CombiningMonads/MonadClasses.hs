@@ -48,21 +48,23 @@ pathsWriter1 start end = do edges <- ask
 {- This is my 2nd attempt, but I'm ending in an infinite loop
    Going to move on for now and try it later. 
  -}
--- pathsWriter2 :: (MonadReader [(Int, Int)] m, MonadWriter [[Int]] m ) => Int -> Int -> m ()
--- pathsWriter2 start end = do edges <- ask
---                             let
---                               pathsFound :: Int -> Int -> WriterT [Int] [] ()
---                               pathsFound n_start n_end =
---                                 let e_paths = do (e_start, e_end) <- lift edges
---                                                  guard $ e_start==n_start
---                                                  tell [start]
---                                                  pathsFound e_start n_end
---                                 in
---                                   e_paths
---                               in
---                               tell (execWriterT pathsFound)
+pathsWriter2 :: (MonadReader [(Int, Int)] m, MonadWriter [[Int]] m ) => Int -> Int -> m ()
+pathsWriter2 start end = do edges <- ask
+                            let
+                              pathsFound :: Int -> Int -> WriterT [Int] [] ()
+                              pathsFound n_start n_end =
+                                let e_paths = do (e_start, e_end) <- lift edges
+                                                 guard $ e_start==n_start
+                                                 tell [n_start]
+                                                 pathsFound e_start n_end
+                                in
+                                  if n_start==n_end then tell [n_start] `mplus` e_paths else e_paths
+                              in
+                              tell (execWriterT $ pathsFound start end)
 
 runPathWriterRW = runWriter (runReaderT (pathsWriter1 2013 2558) graph1)
 
+-- This is still not working, 
+runPathWriter2Rw = runWriter (runReaderT (pathsWriter2 2013 2558) graph1)
 
 
