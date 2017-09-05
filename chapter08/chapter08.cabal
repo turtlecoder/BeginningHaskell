@@ -19,7 +19,7 @@ version:             0.1.0.0
 -- description:         
 
 -- The license under which the package is released.
-license:             None
+license:             BSD3
 
 -- The file containing the license text.
 license-file:        LICENSE
@@ -57,11 +57,16 @@ executable chapter08
   -- other-extensions:    
   
   -- Other library packages from which modules are imported.
-  build-depends:       base >=4.9 && <4.10
+  build-depends:       base >=4.9 && <4.10,
+                       monad-par >= 0.3,
+                       deepseq,
+                       containers
   
   -- Directories containing source files.
   hs-source-dirs:      src
   
   -- Base language which the package is written in.
   default-language:    Haskell2010
+
+  ghc-options:         -Wall -threaded
   
