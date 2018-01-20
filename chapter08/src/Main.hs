@@ -1,6 +1,7 @@
 module Main(main) where
 
 import ParMonad.Futures
+import ParMonad.SKMeans
 
 main :: IO ()
 main = let

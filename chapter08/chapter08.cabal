@@ -60,7 +60,11 @@ executable chapter08
   build-depends:       base >=4.9 && <4.10,
                        monad-par >= 0.3,
                        deepseq,
-                       containers
+                       containers,
+                       data-default,
+                       random,
+                       stm,
+                       mtl
   
   -- Directories containing source files.
   hs-source-dirs:      src
