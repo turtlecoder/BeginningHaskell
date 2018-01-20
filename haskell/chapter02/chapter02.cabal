@@ -49,6 +49,7 @@ cabal-version:       >=1.10
 library
   -- Modules exported by the library.
   exposed-modules:     Chapter02.CharsNumsLists.Examples
+                       Chapter02.SimpleFunctions
   
   -- Modules included in this library but not exported.
   -- other-modules:       
