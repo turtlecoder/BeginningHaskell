@@ -1,6 +1,8 @@
-# Solutions to Beginning Haskell: A Project Based Approach
+# Solutions to Haskell Book Excercies
 
-## Tasks Remaining
+## Beginnng Haskell: A Project Based Approach
+
+### Tasks Remaining
   - [x] Chapter 1
   - [x] Chapter 2
   - [ ] Chapter 3
@@ -17,3 +19,6 @@
   - [ ] Chapter 14
   - [ ] Chapter 15
   - [ ] Chapter 16
+
+## Real World Haskell
+
