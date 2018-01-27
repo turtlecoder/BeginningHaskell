@@ -51,6 +51,7 @@ library
   exposed-modules:     Chapter02.CharsNumsLists.Examples
                        Chapter02.SimpleFunctions
                        Chapter02.PatternMatching
+                       Chapter02.Records.Records
   
   -- Modules included in this library but not exported.
   -- other-modules:       

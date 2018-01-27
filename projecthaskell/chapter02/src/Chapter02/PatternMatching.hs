@@ -1,3 +1,5 @@
+{-# LANGUAGE ViewPatterns #-}
+
 module Chapter02.PatternMatching where
 
 import Chapter02.Data
@@ -108,3 +110,30 @@ binom _ 0        = 1
 binom x y | x==y = 1
 binom n k        = (binom (n-1) (k-1)) + (binom (n-1) k)
 
+--
+
+multipleOf :: Integer -> Integer -> Bool
+multipleOf x y = (mod x y) == 0 
+
+specialMultiples :: Integer -> String
+specialMultiples n | multipleOf n 2 = show n ++ " is multiple of 2"
+specialMultiples n | multipleOf n 3 = show n ++ " is multiple of 3"
+specialMultiples n | multipleOf n 5 = show n ++ " is multiple of 5"
+specialMultiples n | otherwise = show n ++ " is a beautiful number"
+
+-- Excercise 2-6
+
+ackermann m n | m==0 = n+1
+ackermann m n | m>0 && n==0 = ackermann (m-1) 1
+ackermann m n | m > 0 && n > 0 = ackermann (m-1) (ackermann m (n-1))
+
+-- Using View Patterns
+
+responsibility :: Client -> String
+responsibility (Company _ _ _ r) = r
+responsibility _                 = "Unknown"
+
+specialClient :: Client -> Bool
+specialClient (clientName -> "Mr. Alejandro") = True
+specialClient (responsibility -> "Director") = True
+specialClient _                              = False
