@@ -18,6 +18,7 @@ cabal-version:       >=1.10
 library
   exposed-modules:     Chapter03.ParamPoly
                        Chapter03.FnsParams
+                       Chapter03.Lists
   -- other-modules:       
   -- other-extensions:    
   build-depends:       base >=4.9 && <4.10
