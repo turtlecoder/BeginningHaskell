@@ -45,5 +45,12 @@ minimumClientF cil = foldl (\jc hd -> case jc of
                      
                                
 
-all :: [Bool]->Bool
-all bl = undefined
+allP :: [Bool]->Bool
+allP bl = let
+  allP' [] res = res
+  allP' (hd:tl) res = allP' tl (hd && res)
+  in
+  allP' bl True
+
+allF :: [Bool]-> Bool
+allF al = foldl (\b a -> b && a) True al
