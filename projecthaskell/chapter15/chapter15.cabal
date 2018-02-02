@@ -40,12 +40,12 @@ extra-source-files:  ChangeLog.md
 cabal-version:       >=1.10
 
 
-executable chapter15
-  -- .hs or .lhs file containing the Main module.
-  main-is:             Main.hs
+library
+  -- Modules exported by the library.
+  exposed-modules:     Main, Chapter15.BinaryTrees
   
-  -- Modules included in this executable, other than Main.
-  other-modules:      Chapter15.BinaryTrees
+  -- Modules included in this library but not exported.
+  -- other-modules:       
   
   -- LANGUAGE extensions used by modules in this package.
   -- other-extensions:    
