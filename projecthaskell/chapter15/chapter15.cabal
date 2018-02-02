@@ -42,13 +42,14 @@ cabal-version:       >=1.10
 
 library
   -- Modules exported by the library.
-  exposed-modules:     Main, Chapter15.BinaryTrees
+  exposed-modules:     Chapter15.BinaryTrees
   
   -- Modules included in this library but not exported.
   -- other-modules:       
   
   -- LANGUAGE extensions used by modules in this package.
-  -- other-extensions:    
+  -- other-extensions:
+
   
   -- Other library packages from which modules are imported.
   build-depends:       base >=4.9 && <4.10
@@ -59,3 +60,9 @@ library
   -- Base language which the package is written in.
   default-language:    Haskell2010
   
+  -- Test Units
+test-suite Tasty
+   type: exitcode-stdio-1.0
+   build-depends: base >= 4.9 && <4.10, tasty, tasty-hunit, tasty-quickcheck, tasty-smallcheck
+   hs-source-dirs: test
+   main-is: Tasty.hs   
