@@ -23,6 +23,7 @@ treeInsert x (Node y l r) | x <= y  = Node y (treeInsert x l) r
                           | otherwise = Node y l (treeInsert x r)
 
 treeFind :: Ord a => a -> BinaryTree a -> Maybe a
+treeFind _ Leaf = Nothing
 treeFind e (Node v lt rt) = case compare e v of
                               EQ -> Just v
                               LT -> treeFind e lt
