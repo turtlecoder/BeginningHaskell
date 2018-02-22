@@ -4,9 +4,6 @@ import SimpleJSON
 
 data Doc = ToBeDefined deriving (Show)
 
--- string :: String -> Doc
--- string str = undefined
-
 text :: String -> Doc
 text str = undefined
 
@@ -22,9 +19,7 @@ char c = undefined
 
 hcat :: [Doc] -> Doc
 hcat xs = undefined
+  
 
-oneChar :: Char -> Doc
-oneChar c = undefined
-
-enclose :: Char -> Char -> Doc -> Doc
-enclose left right x = char left <> x <> char right
+fsep :: [Doc] -> Doc
+fsep docs = undefined
