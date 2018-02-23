@@ -1,7 +1,5 @@
 module Prettify where
 
-import PrettyStub
-
 punctuate :: Doc -> [Doc] -> [Doc]
 punctuate p [] = []
 punctuate p [d] = [d]
@@ -38,10 +36,10 @@ x <> Empty = x
 x <> y     = x `Concat` y
 
 
-
 hcat :: [Doc] -> Doc
 hcat xs = undefined
   
 
 fsep :: [Doc] -> Doc
 fsep docs = undefined
+

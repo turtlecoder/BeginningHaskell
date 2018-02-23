@@ -2,12 +2,11 @@ module PrettyJSON(
   renderJValue
   ) where
 
-import SimpleJSON
-import PrettyStub
+import SimpleJSON -- (JValue(..))
 import Numeric (showHex)
-import Data.Bits
+import Data.Bits -- (shiftR, (.&.))
 import Data.Char (ord)
-import Prettify
+import Prettify -- (Doc, (<>), char, double, fsep, punctuate, compact, pretty)
 
 renderJValue :: JValue -> Doc
 renderJValue (JBool True)  = text "True"
