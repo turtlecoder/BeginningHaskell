@@ -1,6 +1,7 @@
-module PrettyJSON(
-  renderJValue
-  ) where
+module PrettyJSON( renderJValue
+                 , kvalue
+                 , zvalue
+                 ) where
 
 import SimpleJSON -- (JValue(..))
 import Numeric (showHex)
@@ -21,4 +22,4 @@ renderJValue (JObject obj) = series '{' '}' field obj
 
 kvalue = JObject [("f", JNumber 1), ("q", JBool True)]
 zvalue = JObject [("f", JObject [])]
-arr = JArray [JNumber 1, JNull, JNumber 2, JBool True, JBool False]
+arr = JArray [JNumber 1, JNull, JNumber 2, JBool True, JBool False, kvalue, zvalue]

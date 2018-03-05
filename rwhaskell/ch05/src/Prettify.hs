@@ -9,6 +9,7 @@ import Data.Bits -- (shiftR, (.&.))
 import Data.Char (ord)
 import Prelude hiding (length)
 import qualified Prelude as P(length)
+import SimpleJSON
 
 
 punctuate :: Doc -> [Doc] -> [Doc]
@@ -50,6 +51,7 @@ x <> y     = x `Concat` y
 hcat :: [Doc] -> Doc
 hcat = fold (<>)
 
+-- Simple fold operation, f is a commutes
 fold :: (Doc -> Doc -> Doc) -> [Doc] -> Doc
 fold f dl = foldr f empty dl
   
@@ -140,14 +142,10 @@ smallHex x = text "\\u"
              <> text (replicate (4 - P.length h) 'o')
              <> text h
   where h = showHex x ""
-
-
         
 
 series :: Char -> Char -> (a -> Doc) -> [a] -> Doc
 series open close item = enclose open close . fsep . punctuate (char ',') . map item
-
-
 
 -- Excercise 5-1
 
@@ -157,6 +155,7 @@ fill width doc = fold joinLines (linesDoc doc)
                    joinLines a b = (insertSpaces a) <> (insertSpaces b)
                    insertSpaces doc = (spaces (width - (length doc))) <> doc
 
+-- flatten to a list 
 linesDoc :: Doc -> [Doc]
 linesDoc doc = foldr concatLines [] (toList doc)
                where concatLines :: Doc           -> [Doc]  -> [Doc]
@@ -166,6 +165,7 @@ linesDoc doc = foldr concatLines [] (toList doc)
                      concatLines doc                []     =  [doc]
 
 
+-- do a depth first traversal
 toList :: Doc          -> [Doc]
 toList    (Concat a b) =  (toList a) ++ (toList b)
 toList    doc = [doc]
@@ -181,3 +181,7 @@ length _              = 0
 
 spaces :: Int -> Doc
 spaces n = Text $ replicate n ' '
+
+-- Excercise 5-2
+indent :: Int -> Doc -> Doc
+indent _ _ = undefined
