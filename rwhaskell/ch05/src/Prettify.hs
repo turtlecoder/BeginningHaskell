@@ -184,4 +184,22 @@ spaces n = Text $ replicate n ' '
 
 -- Excercise 5-2
 indent :: Int -> Doc -> Doc
-indent _ _ = undefined
+indent width doc = snd $ handleNode 0 doc
+  where
+    handleNode level d =
+      case d of
+        Char c -> case c of
+                    '[' -> (level + 1, (Text (replicate (level*width-1) ' ') `Concat` d))
+                    '{' -> (level + 1, (Text (replicate (level*width-1) ' ') `Concat` d))
+                    ']' -> (level - 1, d)
+                    '}' -> (level - 1, d)
+                    _   -> (level, d)
+        Line -> if level <= 1
+                then (level, Line)
+                else (level, Line `Concat` Text (replicate level ' '))
+        a `Concat` b -> case handleNode level a of
+                          (level2, d2) -> case handleNode level2 b of
+                                            (level3, d3) -> (level3, d2 `Concat` d3)
+        a `Union` b  -> (level, snd (handleNode level a) `Union` snd (handleNode level b))
+        _ -> (level, d)
+
