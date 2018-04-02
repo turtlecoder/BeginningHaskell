@@ -54,7 +54,10 @@ hcat = fold (<>)
 -- Simple fold operation, f is a commutes
 fold :: (Doc -> Doc -> Doc) -> [Doc] -> Doc
 fold f dl = foldr f empty dl
-  
+
+series :: Doc -> Doc -> (a -> Doc) -> [a] -> Doc
+series open close item = enclose open close . fsep . punctuate (char ',') . map item
+
 
 fsep :: [Doc] -> Doc
 fsep docs = fold (</>) docs
@@ -110,10 +113,10 @@ w `fits` ('\n':_)  = True
 w `fits` (c:cs)    = (w-1) `fits` cs
 
 string :: String -> Doc
-string str = (enclose '"' '"' . hcat . map oneChar) str
+string str = (enclose (char '"') (char '"') . hcat . map oneChar) str
 
-enclose :: Char -> Char -> Doc -> Doc
-enclose left right x = char left <> x <> char right
+enclose :: Doc -> Doc -> Doc -> Doc
+enclose left right x = left <> x <> right
 
 oneChar :: Char -> Doc
 oneChar c = case lookup c simpleEscapes of
@@ -144,8 +147,6 @@ smallHex x = text "\\u"
   where h = showHex x ""
         
 
-series :: Char -> Char -> (a -> Doc) -> [a] -> Doc
-series open close item = enclose open close . fsep . punctuate (char ',') . map item
 
 -- Excercise 5-1
 
@@ -189,14 +190,14 @@ indent width doc = snd $ handleNode 0 doc
     handleNode level d =
       case d of
         Char c -> case c of
-                    '[' -> (level + 1, (Text (replicate (level*width-1) ' ') `Concat` d))
-                    '{' -> (level + 1, (Text (replicate (level*width-1) ' ') `Concat` d))
-                    ']' -> (level - 1, d)
-                    '}' -> (level - 1, d)
+                    '[' -> (level + 1, d)
+                    '{' -> (level + 1, d)
+                    ']' -> (level - 1, d) -- fill ((level-1)*width) d)
+                    '}' -> (level - 1, d) -- fill ((level-1)*width) d)
                     _   -> (level, d)
         Line -> if level <= 1
                 then (level, Line)
-                else (level, Line `Concat` Text (replicate level ' '))
+                else (level, (fill ((level)*width) Line)) 
         a `Concat` b -> case handleNode level a of
                           (level2, d2) -> case handleNode level2 b of
                                             (level3, d3) -> (level3, d2 `Concat` d3)
