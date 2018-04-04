@@ -22,3 +22,24 @@ isEmptyFalse = M.null $ M.fromList [("hello", 3), ("bye", 4)]
 isMemberTrue = M.member "hello" $ M.fromList[("hello", 3), ("bye", 4)]
 
 lookupHello = M.lookup "hello" $ M.fromList[("hello", 3), ("bye", 4)]
+
+lookupWelcome = M.lookup "welcome" $ M.fromList [("hello", 3) , ("bye", 4)]
+
+lookupWithDefault = M.findWithDefault 0 "welcome" $ M.fromList [("hello", 3), ("bye", 4)]
+
+deleteHello = M.delete "hello" $ M.fromList [("hello", 3), ("bye", 4)]
+
+adjustMap = M.adjust (+7) "hello" $ M.fromList [("hello", 3), ("bye", 4)]
+
+alterMap = M.alter (\(Just v) -> Just (v+7)) "hello" $ M.fromList [("hello", 3), ("bye", 4)]
+
+-- Excercise 4-2
+
+delete :: Ord k => k -> (M.Map k v) -> (M.Map k v)
+delete key map = M.alter (\(Just v) -> Nothing) key map
+
+insert :: Ord k => k -> v -> (M.Map k v) -> (M.Map k v)
+insert key value map = M.alter (\ _ -> Just value) key map
+
+adjust :: Ord k => (v -> v) -> k -> M.Map k v -> M.Map k v
+adjust f key map = M.alter (\(Just v) -> Just (f v)) key map
