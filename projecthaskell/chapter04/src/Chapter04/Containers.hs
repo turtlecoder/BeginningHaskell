@@ -43,3 +43,10 @@ insert key value map = M.alter (\ _ -> Just value) key map
 
 adjust :: Ord k => (v -> v) -> k -> M.Map k v -> M.Map k v
 adjust f key map = M.alter (\(Just v) -> Just (f v)) key map
+
+---
+
+unionIntersection = let m1 = M.fromList [("hello", 3), ("bye", 4)]
+                        m2 = M.fromList [("hello", 5), ("welcome", 6)]
+                    in (m1 `M.union` m2, M.intersectionWith (-) m1 m2)
+                                            
