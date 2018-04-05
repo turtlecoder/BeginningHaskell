@@ -1,5 +1,7 @@
 # Chapter 4 Notes
 
-- Complete Excercuse 4-1.
+- Excercise 4-1.
   Making the project a library, instead of an executable
-- Complete Excercise 4-2
+- Excercise 4-2 in Containers.hs
+- Excercise 4-3 in Sets.hs
+  - Solution (a)
