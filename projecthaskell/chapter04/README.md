@@ -6,3 +6,5 @@
 - Excercise 4-3 in Sets.hs
   - Solution (a)
   - Solution (b)
+- Begin Section on Trees
+- Begin Section on Typeclasses
