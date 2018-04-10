@@ -18,11 +18,11 @@ data Client i = GovOrg { clientId :: i
                 | Individual { clientId :: i
                              , person :: Person
                              }
-                deriving (Show, Ord)
+                deriving (Show)
 
 data Person = Person { firstName :: String
                      , lastName :: String
-                     } deriving (Show, Ord)
+                     } deriving (Show)
 
 -- Excercise 4-3
 -- Classify Clients Solution a
@@ -66,3 +66,18 @@ instance (Eq i ) =>Eq (Client i) where
 
 instance Eq Person where
   (==) (Person { firstName = fn1, lastName = ln1 }) (Person { firstName = fn2, lastName = ln2 }) = fn1==fn2 && ln1==ln2
+
+
+-- Excercise 4-6: Ordering Clients
+instance Ord Person where
+  compare (Person { firstName = fn1, lastName = ln1}) (Person { firstName = fn2, lastName=ln2}) =
+    let compareLastNames = ln1 `compare` ln2
+        compareFirstNames = fn1 `compare` fn2
+    in
+      if (compareLastNames == EQ ) then compareLastNames else compareFirstNames
+
+instance Ord i => Ord (Client i) where
+  compare (Individual { person = p1 } ) (Individual { person=p2}) = p1 `compare` p2
+  compare (Individual _ _ ) _ = LT
+  compare _ (Individual _ _) = GT
+  compare c1 c2 = (clientName c1) `compare` (clientName c2)
