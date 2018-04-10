@@ -8,3 +8,4 @@
   - Solution (b)
 - Begin Section on Trees
 - Begin Section on Typeclasses
+- Completed excercise 4-4

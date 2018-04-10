@@ -1,5 +1,7 @@
 module Chapter04.TimeMachines where
 
+import Chapter04.Priceable
+
 data TimeMachine = TimeMachine { _manufacturer :: Manufacturer
                                , _model :: Integer
                                , _name :: String
@@ -16,3 +18,7 @@ data Direction = Forward
                deriving (Show)
 
 type Price = Double
+
+instance Priceable TimeMachine where
+  price tm = _price tm
+
