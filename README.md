@@ -2,11 +2,11 @@
 
 ## Beginnng Haskell: A Project Based Approach
 
-### Tasks Remaining
+## Tasks Remaining
   - [x] Chapter 1
   - [x] Chapter 2
   - [x] Chapter 3
-  - [ ] Chapter 4
+  - [x] Chapter 4
   - [ ] Chapter 5
   - [x] Chapter 6
   - [x] Chapter 7
@@ -20,7 +20,9 @@
   - [x] Chapter 15
   - [ ] Chapter 16
 
-## Real World Haskell
+# Real World Haskell
+
+## Tasks Remaining
 - [ ] Chapter 1
 - [ ] Chapter 2
 - [ ] Chapter 3
@@ -43,6 +45,6 @@
 - [ ] Appendix B
 
 
-## The Haskell School of Expression: Learning Functional Programming through Multimedia
+# The Haskell School of Expression: Learning Functional Programming through Multimedia
 
 TBD
