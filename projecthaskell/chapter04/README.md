@@ -9,3 +9,4 @@
 - Begin Section on Trees
 - Begin Section on Typeclasses
 - Completed excercise 4-4
+- Completed Excercises 4-7 through 4-9 in BinaryTrees.hs

@@ -33,6 +33,7 @@ treeFind (Node a lt rt) a' = case compare a' a of
 -- Excercise 4-7: More operations on Binary Trees
 
 treeInsert :: Ord a => BinaryTree a -> a -> BinaryTree a
+treeInsert Leaf a' = Node a' Leaf Leaf
 treeInsert t@(Node a lt rt) a' = case compare a' a of
                                    EQ -> t
                                    LT -> Node a (treeInsert lt a') rt
@@ -119,4 +120,19 @@ balanceTree (Node a lt rt) = treeInsert (treeMerge lt rt) a
 -- Returns a funtion to transform the tree
 binTreeMap :: (Ord b)=>(a->b) -> (BinaryTree a -> BinaryTree b)
 binTreeMap f = balanceTree.(fmap f)
+
+
+-- Excercise 4-9: Foldable Fun!
+instance Foldable BinaryTree where
+  -- have to return a type that has a monoid instance
+  foldMap _ Leaf = mempty
+  foldMap f (Node a lt rt) = foldMap f lt `mappend` (f a) `mappend` (foldMap f rt)
+  foldr f z Leaf = z
+  foldr f z (Node a lt rt) = foldr f (foldr f (f a z) lt) rt
+  
+
+instance (Ord a) => Monoid (BinaryTree a ) where
+  mempty = Leaf
+  mappend :: (Ord a ) => BinaryTree a -> BinaryTree a -> BinaryTree a 
+  mappend = treeMerge
 
