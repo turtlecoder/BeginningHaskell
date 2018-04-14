@@ -81,3 +81,16 @@ instance Ord i => Ord (Client i) where
   compare (Individual _ _ ) _ = LT
   compare _ (Individual _ _) = GT
   compare c1 c2 = (clientName c1) `compare` (clientName c2)
+
+
+-- Complex Numbers
+data Complex = C Double Double deriving (Show, Eq)
+
+instance Num Complex where
+  (C a1 b1) + (C a2 b2) = C (a1 + a2) (b1 + b2)
+  (C a1 b1) - (C a2 b2) = C (a1 - a2) (b1 - b2)
+  (C a1 b1) * (C a2 b2) = C (a1 * a2 - b1 * b2) (a1*b2 + b1 * a2)
+  negate (C a b) = C (negate a) (negate b)
+  fromInteger n = C (fromInteger n) 0
+  abs (C a b) = C (abs a) (abs b)
+  signum c@(C a b) = let C n _ = abs c in (C (a/n) (b/n))
