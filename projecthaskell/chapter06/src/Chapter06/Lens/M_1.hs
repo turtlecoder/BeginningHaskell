@@ -1,4 +1,4 @@
-module Chapter06.Lenses where
+module Chapter06.Lenses.M_1 where
 
 import Control.Lens
 
