@@ -3,6 +3,7 @@
 module Chapter06.Lens.M_2 where
 
 import Control.Lens
+import Data.Char
 
 data Client i = GovOrg { _identifier :: i
                        , _name :: String
@@ -21,12 +22,37 @@ data Person = Person { _firstName :: String, _lastName :: String }  deriving Sho
 makeLenses ''Client
 makeLenses ''Person
 
-fullName = let p = Person "John" "Smith"
-           in
-             (view firstName p, p^.lastName)
+
+fullName :: Simple Lens Person String
+fullName = lens (\(Person f l) -> f ++ " " ++ l)
+                (\_ newFullName -> case words newFullName of
+                                      f:l:_ -> Person f l
+                                      _     -> error "Incorrect Name format")
 
 viewClient = let client = Individual 3 (Person "John" "Smith")
-            in view (person.lastName) client
+             in view (person.lastName) client
 
 viewClientSelector = let client = Individual 4 (Person "Jane" "Doe")
                          in client^.person.firstName
+
+setClient = set identifier 5 client
+  where
+    client = Individual 4 (Person "John" "Smith")
+
+setClient2 = person.lastName .~ "Kox" $ client
+  where
+    client = Individual 4 (Person "John" "Smith")
+
+add2ToClient1 = client & identifier +~ 2
+  where client = Individual 4 (Person "John" "Smith")
+
+
+add2ToClient2 = client & over identifier (+2)
+  where client = Individual 4 (Person "John" "Smith")
+
+makeClientNamesUpperCase = let client = Individual 4 (Person "John" "Smith")
+                           in
+                             client & person.fullName %~ (map toUpper)
+
+
+
