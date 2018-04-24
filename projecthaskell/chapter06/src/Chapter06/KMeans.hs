@@ -7,29 +7,9 @@ import Data.List
 import qualified Data.Map as M
 import Data.Default
 
-
-class (Default v, Ord v) => Vector v where
-  distance :: v -> v -> Double
-  centroid :: [v] -> v 
+import Chapter06.KMeansCommon
 
 
-instance Vector (Double, Double) where
-  distance (a,b) (c,d) = sqrt $ (c-a)*(c-a) + (d-b)*(d-b)
-  centroid lst = let (u,v) = foldr (\(a,b) (c,d) -> (a+c, b+d)) (0.0, 0.0) lst
-                     n = fromIntegral $ length lst
-                 in (u/n, v/n)
-
--- Converts a data type to a vector provided there is a valid instance
-class Vector v => Vectorizable e v where
-  toVector :: e -> v
-
-
-instance Vectorizable (Double,Double) (Double, Double) where
-  -- since both are the same types
-  toVector = id
-
-
-type VectorInitFunc e v = Int -> [e] -> [v]
 
 -- Excercise 6-1: Counting the Number of Steps
 -- K-Means Implementation
