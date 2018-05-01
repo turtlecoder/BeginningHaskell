@@ -34,11 +34,15 @@ kMeans' state =
       state3 = state2 & steps +~ 1
    in if state3^.err < state3^.threshold then state3 else kMeans' state3
 
-{- Excercise 6-4 -}
+{- Excercise 6-3 -}
 
 clusterAssignments :: (Vector v, Vectorizable e v) => [v] -> [e] -> M.Map v [e]
 clusterAssignments centroids points =
   let initialMap = M.fromList $ zip centroids (repeat [])
-      in foldr (\p m -> let chosenCentroid = minimumBy (\x y -> compare (distance x $ toVector p) (distance y $ toVector p)) centroids
-                            in M.adjust (p:) chosenCentroid m)
+      in foldr (\point mapAccum ->
+                  let
+                    chosenCentroid =
+                      minimumBy (\x y -> compare (distance x $ toVector point) (distance y $ toVector point)) centroids
+                  in
+                    M.adjust (point:) chosenCentroid mapAccum)
                initialMap points

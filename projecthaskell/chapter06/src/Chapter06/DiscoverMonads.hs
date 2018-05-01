@@ -19,8 +19,13 @@ purchaseValue purchaseId = case numberOfItemsByPurchaseId purchaseId of
                              Nothing -> Nothing
                              Just n -> case productIdByPurchaseId purchaseId of
                                          Nothing -> Nothing
-                                         Just price -> Just $ (fromInteger n) * price
+                                         Just productId -> case priceByProductId productId of
+                                                             Nothing -> Nothing
+                                                             Just price -> Just $ (fromInteger n) * price
 
   
 productIdByPurchaseId::purchaseId -> Maybe productId
 productIdByPurchaseId purchaseId = undefined
+
+priceByProductId :: productId -> Maybe Double
+priceByProductId _ = undefined
