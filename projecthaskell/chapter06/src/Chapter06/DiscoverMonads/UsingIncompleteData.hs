@@ -1,6 +1,7 @@
-module Chapter06.DiscoverMonads where
+module Chapter06.DiscoverMonads.UsingIncommpleteData  where
 
 import Data.Maybe
+import Chapter06.ThenDo
 
 
 
@@ -29,3 +30,11 @@ productIdByPurchaseId purchaseId = undefined
 
 priceByProductId :: productId -> Maybe Double
 priceByProductId _ = undefined
+
+purchaseValueThenDo :: purchaseId -> Maybe Double
+purchaseValueThenDo purchaseId =
+  numberOfItemsByPurchaseId purchaseId `thenDo`
+  (\n -> productIdByPurchaseId purchaseId `thenDo`
+    (\productId -> priceByProductId productId `thenDo`
+      (\price -> Just $ fromInteger n * price)))
+                                                    
