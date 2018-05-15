@@ -43,3 +43,24 @@ initialState i k pts t = KMeansState (i k pts) t 0
 
 kMeans :: (Vector v, Vectorizable e v) => (Int -> [e] -> [v]) -> Int -> [e] -> Double -> [v]
 kMeans i k pts t = fst $ kMeans' pts (initialState i k pts t)
+
+
+remain :: a -> (s -> (a,s))
+remain a = \s -> (a,s)
+
+access :: (s -> a) -> (s -> (a,s))
+access f = \s -> (f s, s)
+
+modify :: (s -> s) -> (s -> ((),s))
+modify f = \s -> ((), f s)
+
+kMeans'' :: (Vector v, Vectorizable e v) => [e] -> State (KMeansState v) [v]
+kMeans'' points =
+  access centroids `thenDo`
+  (\prevCenters -> remain (clusterAssignments prevCenters points) `thenDo`
+  (\assginments -> remain (newCentroids assginments) `thenDo`
+  (\newCentrs -> modify (\s -> s { centroids = newCentrs } ) `thenDo`
+  (\_ -> modify (\s -> s { steps = steps s + 1} ) `thenDo`
+  (\_ -> access threshold `thenDo`
+    (\t -> remain (sum $ zipWith distance prevCenters newCentrs) `thenDo`
+      (\err -> if err < t then remain newCentrs else kMeans'' points )))))))
