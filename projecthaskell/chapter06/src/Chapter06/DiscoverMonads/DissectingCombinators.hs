@@ -3,7 +3,7 @@
 module Chapter06.DiscoverMonads.DissectingCombinators where
 
 
-import Prelude (map, ($), (+), foldr, undefined, Double, Maybe(..), String, error)
+import Prelude ((*), map, ($), (+), foldr, undefined, Double, Maybe(..), String, error)
 import Data.Maybe (catMaybes)
 
 class Monad m where
@@ -43,3 +43,9 @@ productIdByPurchaseId purchaseId = undefined
 
 priceByProductId :: productId -> Maybe Double
 priceByProductId _ = undefined
+
+purchaseValueWithDo :: purchaseId -> Maybe Double
+purchaseValueWithDo purchaseId = do n <- numberOfItemsByPurchaseId purchaseId
+                                    productId <- productIdByPurchaseId purchaseId
+                                    price <- priceByProductId productId
+                                    return $ n * price
