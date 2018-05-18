@@ -1,7 +1,7 @@
 module Chapter06.DiscoverMonads.UsingIncommpleteData  where
 
 import Data.Maybe
-import Chapter06.ThenDo
+import Chapter06.ThenDo.MaybeImpl
 
 
 
