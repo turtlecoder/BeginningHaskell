@@ -55,6 +55,9 @@ library
                      , containers
                      , data-default
                      , lens
+                     , template-haskell
+                     , mtl
+                     
   
   -- Directories containing source files.
   hs-source-dirs:      src
