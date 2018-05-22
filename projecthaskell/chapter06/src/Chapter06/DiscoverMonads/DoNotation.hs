@@ -56,3 +56,9 @@ kMeans' points = do prevCentrs <- fmap centroids get
                     let err = sum $ zipWith distance prevCentrs newCentrs
                     if err < t then return newCentrs else kMeans' points
                     
+
+initializeState :: n -> t -> KMeansState v
+initializeState _ _ = undefined
+
+kMeans :: (Vector v, Vectorizable e v) => Int -> [e] -> Double -> [v]
+kMeans n pts t = evalState (kMeans' pts) (initializeState n t)
