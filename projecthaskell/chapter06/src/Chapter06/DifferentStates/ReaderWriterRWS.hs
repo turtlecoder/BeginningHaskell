@@ -4,7 +4,11 @@ module Chapter06.DifferentStates.ReaderWriterRWS where
 
 import Chapter06.KMeansCommon
 import Control.Monad.Reader
+import Control.Monad.RWS
+import qualified Control.Monad.RWS as RWS
 import qualified Control.Monad.Writer as W
+import qualified Data.Map as M
+import Data.List (minimumBy)
 
 data Person = Person { _firstName :: String, _lastName :: String }  deriving Show
 
@@ -53,3 +57,34 @@ instance (Monoid m, Applicative (MyWriter m)) => Monad (MyWriter m) where
   
 
 tell m = MyWriter ((),m)
+
+-- Using the RWS monad
+kMeans' :: (Vector vector, Vectorizable points vector) => [points] -> RWS Double (Sum Int) [vector] ()
+kMeans' points = do prevCenters <- get
+                    let assignments = clusterAssignments prevCenters points
+                        newCenters = newCentroids assignments
+                    put newCenters
+                    RWS.tell (Sum 1)
+                    t <- ask
+                    let err = sum $ zipWith distance prevCenters newCenters
+                    unless (err < t) $ kMeans' points
+                    
+
+
+clusterAssignments :: (Vector v, Vectorizable e v) => [v] -> [e] -> M.Map v [e]
+clusterAssignments centrs points =
+  let initialMap = M.fromList $ zip centrs (repeat [])
+      in foldr (\aPoint accumMap -> let chosenCentroid =
+                                          minimumBy (\x y -> compare (distance x $ toVector aPoint)
+                                                                     (distance y $ toVector aPoint)) centrs
+                               in M.adjust (aPoint:) chosenCentroid accumMap) initialMap points
+
+
+newCentroids :: (Vector v, Vectorizable e v) => M.Map v [e] -> [v]
+-- newCentroids centroidMap = (M.elems . (fmap (centroid.map toVector))) centroidMap
+newCentroids centroidMap = let newCentroidList = fmap (centroid.map toVector) centroidMap
+                               newElems = M.elems newCentroidList
+                               in newElems
+
+kMeansMain' :: (Vector vector, Vectorizable point vector) => (Int -> [point] -> [vector]) -> Int -> [point] -> Double -> ([vector], Sum Int)
+kMeansMain' initFn n pts t = RWS.execRWS (kMeans' pts) t (initFn n pts)
