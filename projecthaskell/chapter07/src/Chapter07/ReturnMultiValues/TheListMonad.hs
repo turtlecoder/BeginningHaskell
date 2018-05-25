@@ -28,7 +28,7 @@ usingDo = do x <- [1,2,3]
 
 -- Excercise 7-1
 -- Good Interview Question!!
-
+-- 
 brokenThreeJumps :: (Num year) => year -> [year]
 brokenThreeJumps year = let jumpBwd1 = \yr -> yr - 1
                             jumpFwd3 = \yr -> yr + 3
