@@ -8,4 +8,4 @@
 - Completed Excercise 7-2
   - [ ] _Add Link here_
 - Completed Excercise 7-3
-  [ ] _Add Link here
+  - [ ] _Add Link here
