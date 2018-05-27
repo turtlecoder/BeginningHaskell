@@ -48,8 +48,9 @@ newtype Transaction = Transaction (Set PurchaseInfo) deriving (Eq, Ord)
 
 productsToPurchaseInfo :: [Product] -> Set PurchaseInfo
 productsToPurchaseInfo =
-  Prelude.foldr (\(Product i t) pinfos -> S.insert (InfoPurchaseProduct i) $
-                                          S.insert (InfoPurchaseProductType t) pinfos) S.empty
+  Prelude.foldr (\(Product productId productType) purchaseInfo ->
+                   S.insert (InfoPurchaseProduct productId) $
+                   S.insert (InfoPurchaseProductType productType) purchaseInfo) S.empty
 
 
 purchaseToTransaction :: Purchase -> Transaction
