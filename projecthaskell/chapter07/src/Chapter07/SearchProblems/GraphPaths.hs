@@ -24,6 +24,9 @@ paths edges start end =
 graph1::[(Int, Int)]
 graph1 = [(2013, 501), (2013,1004), (501, 2558), (1004, 2558)]
 
+graph2 :: [(Int, Int)]
+graph2 = [(2013, 501), (501, 2558), (501, 1004), (1004, 501), (2013, 2558)]
+
 pathsL :: [(Int, Int)] -> Int -> Int -> Logic [Int]
 pathsL edges start end = let e_paths = do (e_start, e_end) <- choices edges
                                           guard $ e_start == start
@@ -50,4 +53,17 @@ desugaredPathsL edges start end =
                   ((pathsL edges e_end end) >>=
                     (\subpath -> return $ start:subpath)))
   in if start == end then return [end] `mplus` e_paths else e_paths
-   
+
+
+-- Somethign is wrong here, probably copied the code incorrectly
+pathsLFair :: [(Int, Int)] -> Int -> Int -> Logic [Int]
+pathsLFair edges start end =
+  let e_paths = choices edges >>-
+                \(e_start, e_end) -> guard (e_start == e_end) >>
+                pathsLFair edges e_end end >>-
+                \subpath -> return $ start:subpath
+  in if start == end
+     then return [end] `interleave` e_paths else e_paths
+    
+observeManyPathsLFair = observeMany 3 $ pathsLFair graph2 2013 2558
+
