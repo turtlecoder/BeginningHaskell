@@ -57,6 +57,7 @@ library
                      , lens
                      , template-haskell
                      , mtl
+                     , logict
   
   -- Directories containing source files.
   hs-source-dirs:      src
