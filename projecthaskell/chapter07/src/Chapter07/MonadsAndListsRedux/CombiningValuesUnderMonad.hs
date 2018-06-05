@@ -1,8 +1,8 @@
 module Chapter07.MonadsAndListsRedux.CombiningValuesUnderMonad where
 
-import Control.Monad.Reader
-import Control.Monad.Writer
-
+import Control.Monad.Reader hiding (sequence, mapM)
+import Control.Monad.Writer hiding (sequence, mapM)
+import Prelude hiding (sequence, mapM)
 
 -- Example Usage for a reader
 addPrefix :: String -> Reader String String
@@ -29,3 +29,17 @@ logInformationForM :: [String] -> Writer String ()
 logInformationForM infos = forM_ infos $ \s -> tell (s ++ "\n")
 
 runningLogInformationFor = runWriter $ logInformationForM ["one", "two", "three"]
+
+-- Excercise 7-5
+
+-- sequence implementation of sequence for lists
+sequence :: (Monad m) => [m x] -> m [x]
+sequence (hd:tl) = do x <- hd
+                      xtl <- sequence tl
+                      return $ x:xtl
+sequence [] = return []
+
+-- mapM implementation
+mapM f ma = sequence.fmap f $ ma
+                      
+
