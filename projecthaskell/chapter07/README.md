@@ -13,3 +13,5 @@
   - [ ] _Add Link here_
 - Completed Excercise 7-5
   - [ ] _Add link here_
+- Completed Excercise 7-6
+  - [ ] _Add Link here_
