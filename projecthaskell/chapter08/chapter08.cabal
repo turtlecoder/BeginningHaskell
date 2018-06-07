@@ -54,6 +54,10 @@ library
   build-depends:       base
                      , containers
                      , data-default
+                     , deepseq
+                     , monad-par
+
+  ghc-options: -Wall -threaded
   
   -- Directories containing source files.
   hs-source-dirs:      src
