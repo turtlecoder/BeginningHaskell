@@ -1,3 +1,5 @@
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE BangPatterns #-}
 
 module Chapter08.ParMonads.ParallelizingApriori where
@@ -5,6 +7,7 @@ module Chapter08.ParMonads.ParallelizingApriori where
 import qualified Data.Set as S
 import Control.Monad.Par
 import Control.DeepSeq
+import Data.Default
 
 -- Clients
 data Client = GovOrg { _clientName :: String }
@@ -93,3 +96,30 @@ filterLk minSupport transactions ck =
                rVar <- spawn $ filterLk minSupport transactions r
                rFiltered <- get rVar
                return $ lFiltered ++ rFiltered
+
+-- Excercise 8-1: Parallel K-Means
+
+class (Default v, Ord v) => Vector v where
+  distance :: v -> v -> Double
+  centroid :: [v] -> v
+
+
+
+class Vector v => Vectorizable e v where
+  toVector :: e -> v 
+
+instance Vectorizable (Double, Double) (Double, Double) where
+  -- since both are the same types
+  toVector = id
+
+instance Vector (Double, Double) where
+  distance (a,b) (c,d) = sqrt $ (c-a)*(c-a) + (d-b)*(d-b)
+  centroid lst = let (u,v) = foldr (\(a,b) (c,d) -> (a+c, b+d)) (0.0,0.0) lst
+                     n = fromIntegral $ length lst
+                 in (u/n, v/n)
+
+type VectorInitFunc e v = Int -> [e] -> [v]
+
+
+
+
