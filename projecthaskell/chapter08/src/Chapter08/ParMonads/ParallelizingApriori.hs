@@ -160,3 +160,7 @@ kMeans' centroids points threshold =
      
 shouldStop :: (Vector v) => [(v,v)] -> Double -> Bool
 shouldStop centroids threshold = foldr (\(x,y) s -> s + distance x y) 0.0 centroids < threshold
+
+kMeans :: (NFData v, NFData e, Vector v, Vectorizable e v) => (VectorInitFunc e v) -> Int -> Double -> [e] -> [v]
+kMeans initFunc n threshold points = runPar $ kMeans' initialCentroids points threshold
+  where initialCentroids = initFunc n points
