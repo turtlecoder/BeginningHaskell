@@ -5,9 +5,11 @@
 module Chapter08.ParMonads.ParallelizingApriori where
 
 import qualified Data.Set as S
+import qualified Data.Map as M
 import Control.Monad.Par
 import Control.DeepSeq
 import Data.Default
+import Data.List
 
 -- Clients
 data Client = GovOrg { _clientName :: String }
@@ -85,12 +87,12 @@ instance NFData FrequentSet where
   rnf (FrequentSet !_) = ()
 
 filterLk :: Double -> [Transaction] -> [FrequentSet] -> Par [FrequentSet]
-filterLk minSupport transactions ck =
-  let lengthCk = length ck
+filterLk minSupport transactions frequentSetList =
+  let lengthFrequentSetList = length frequentSetList
   in
-    if lengthCk <= 5
-    then return $ filter (\fs -> setSupport transactions fs > minSupport) ck
-    else let (l,r) = splitAt (lengthCk `div` 2) ck
+    if lengthFrequentSetList <= 5
+    then return $ filter (\fs -> setSupport transactions fs > minSupport) frequentSetList
+    else let (l,r) = splitAt (lengthFrequentSetList `div` 2) frequentSetList
          in do lVar <- spawn $ filterLk minSupport transactions l
                lFiltered <- get lVar
                rVar <- spawn $ filterLk minSupport transactions r
@@ -122,4 +124,39 @@ type VectorInitFunc e v = Int -> [e] -> [v]
 
 
 
+parNewCentroidPhase :: (NFData v, Vector v, Vectorizable e v) => M.Map v [e] -> Par [(v,v)]
+parNewCentroidPhase mapping = let mapSize = M.size mapping
+                              in if mapSize <= 5
+                                then return $ (M.toList.fmap (centroid.(fmap toVector))) mapping
+                                else
+                                  -- split the list
+                                  let (leftMap, rightMap) = M.splitAt (mapSize `div` 2) mapping
+                                  in do lVar <- spawn $ parNewCentroidPhase leftMap
+                                        rVar <- spawn $ parNewCentroidPhase rightMap
+                                        newL <- get lVar
+                                        newR <- get rVar
+                                        return $ newL ++ newR
+                                        
 
+clusterAssignmentsPhase :: (Vector v, Vectorizable e v) => [v] -> [e] -> M.Map v [e]
+clusterAssignmentsPhase centroids points =
+  let initialMap = M.fromList $ zip centroids (repeat [])
+      foldingFunc pt mapping =
+        let chosenCentroid =
+              minimumBy (\x y -> compare (distance x $ toVector pt) (distance y $ toVector pt))
+                        centroids
+        in M.adjust (pt:) chosenCentroid mapping
+  in foldr foldingFunc initialMap points
+                                        
+kMeans' :: (NFData v, NFData e, Vector v, Vectorizable e v) => [v] -> [e] -> Double -> Par [v]
+kMeans' centroids points threshold = 
+  do assignmentsV <- new
+     put assignmentsV $ clusterAssignmentsPhase centroids points
+     assignments <- get assignmentsV
+     newCentroidsMap <- parNewCentroidPhase assignments
+     if shouldStop (newCentroidsMap) threshold
+       then return (fmap snd newCentroidsMap)
+       else kMeans' (fmap snd newCentroidsMap) points threshold
+     
+shouldStop :: (Vector v) => [(v,v)] -> Double -> Bool
+shouldStop centroids threshold = foldr (\(x,y) s -> s + distance x y) 0.0 centroids < threshold
