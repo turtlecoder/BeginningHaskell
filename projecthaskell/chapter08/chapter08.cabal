@@ -57,6 +57,7 @@ library
                      , deepseq
                      , monad-par
                      , random
+                     , stm
 
   ghc-options: -Wall -threaded
   
