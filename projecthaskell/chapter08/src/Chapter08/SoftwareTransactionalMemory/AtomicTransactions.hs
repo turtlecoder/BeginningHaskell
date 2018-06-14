@@ -1,0 +1,1 @@
+module Chapter08.SoftwareTransactionalMemory.AtomicTransactions where
