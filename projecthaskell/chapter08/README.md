@@ -10,4 +10,7 @@
   - Concurrency-related code is side-effect
   - concurrent code is impure
     - order determines output, 
-	- if pure, then all ordering will have same result. 
+	- if pure, tehen all ordering will have same result. 
+	
+- Excercise 8-2: Implement a function for use with STM
+ - [ ] _Add Link here_
