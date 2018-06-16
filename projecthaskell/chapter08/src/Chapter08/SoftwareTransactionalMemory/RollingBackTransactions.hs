@@ -31,6 +31,8 @@ type TMUsed = TVar (Set Integer)
 type TMUpperLimit = Integer
 type TMTarget = Integer
 
+
+-- This function should be used atomically
 travelByTM :: TMUsed -> TMUpperLimit -> TMTarget -> STM ()
 travelByTM currentTMsInUse ul targetYear =
   do tmsInUse <- readTVar currentTMsInUse
