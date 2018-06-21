@@ -51,7 +51,16 @@ executable chapter08-actors
   -- other-extensions:    
   
   -- Other library packages from which modules are imported.
-  build-depends:       base >=4.9 && <4.10
+  build-depends:       base
+                     , containers
+                     , data-default
+                     , deepseq
+                     , monad-par
+                     , random
+                     , stm
+                     , binary
+                     , distributed-process
+                     , distributed-process-simplelocalnet
   
   -- Directories containing source files.
   hs-source-dirs:      src
