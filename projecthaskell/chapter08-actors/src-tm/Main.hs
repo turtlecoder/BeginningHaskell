@@ -21,7 +21,7 @@ data TimeJump = JumpToYear ProcessId Int
               | Wait
               | Travelling Int
               | Arrived Int
-              | WaitingForStore ProcessId
+              | LookForStore ProcessId
               deriving (Typeable, Generic)
 
 instance Binary TimeJump
@@ -29,6 +29,9 @@ instance Binary TimeJump
 timeTravelService :: Set Int -> Process ()
 timeTravelService yearsUsed =
   do storePid <- getSelfPid
+     mapM_ (\node -> do pid <- spawn node $ (mkStaticClosure 'traveller)
+                        send pid (LookForStore storePid))
+       nodes
      receiveWait
        [ match $ \(JumpToYear travellerProcId year) ->
                    if year `member` yearsUsed
