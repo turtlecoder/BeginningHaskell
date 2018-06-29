@@ -16,7 +16,10 @@ logMessage msg = say $ "handling " ++ msg
 
 localMain :: IO ()
 localMain = do
-  Right t <- createTransport "127.0.0.1" "10501" (\_ -> ("127.0.0.1", "10501")) defaultTCPParameters
+  Right t <- createTransport
+    "127.0.0.1" "10501"
+    (\_ -> ("127.0.0.1", "10501"))
+    defaultTCPParameters
   node <- newLocalNode t initRemoteTable
   runProcess node $ do
     echoPid <- spawnLocal $ forever $ do
