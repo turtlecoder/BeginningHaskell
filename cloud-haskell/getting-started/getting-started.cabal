@@ -6,12 +6,12 @@
 
 name:           getting-started
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/githubuser/getting-started#readme>
-homepage:       https://github.com/githubuser/getting-started#readme
-bug-reports:    https://github.com/githubuser/getting-started/issues
-author:         Author name here
-maintainer:     example@example.com
-copyright:      2018 Author name here
+description:    Please see the README on GitHub at <https://github.com/turtlecoder/getting-started#readme>
+homepage:       https://github.com/turtlecoder/getting-started#readme
+bug-reports:    https://github.com/turtlecoder/getting-started/issues
+author:         Haroon Khan
+maintainer:     haroon.khan@gmail.com
+copyright:      2018 Haroon Khan
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
@@ -31,7 +31,8 @@ library
               , network-transport-tcp
 
   exposed-modules:
-      Lib
+                  SendingMessages
+                , SpawningRemoteProcesses
   other-modules:
       Paths_getting_started
   default-language: Haskell2010
