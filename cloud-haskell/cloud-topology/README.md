@@ -19,7 +19,10 @@
      |--= 35302 hkhanhex .stack-work/install/x86_64-osx/lts-9.21/8.0.2/bin/master-slave-config slave 127.0.0.1 8002
      |--= 35597 hkhanhex .stack-work/install/x86_64-osx/lts-9.21/8.0.2/bin/master-slave-config slave 127.0.0.1 8003
      \--= 35773 hkhanhex .stack-work/install/x86_64-osx/lts-9.21/8.0.2/bin/master-slave-config slave 127.0.0.1 8004
-
   ```
   
   
+- Section on __Other Topologies__
+  - Sample program in the tutorial does not work
+  - documentation in the code, haddock, does not compile
+  - haddock documentation needs to be edited/updated
