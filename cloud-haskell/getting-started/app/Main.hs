@@ -1,6 +1,6 @@
 module Main where
 
-import Lib
+import SendingMessages
 
 main :: IO ()
 main = localMain
