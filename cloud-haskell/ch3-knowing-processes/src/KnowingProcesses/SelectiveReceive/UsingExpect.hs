@@ -1,4 +1,4 @@
-module KnowingProcesses.SelectiveReceive(demoIO) where
+module KnowingProcesses.SelectiveReceive.UsingExpect (demoIO) where
 
 import Control.Distributed.Process
 import Control.Distributed.Process.Node (initRemoteTable, runProcess)
