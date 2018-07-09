@@ -10,3 +10,5 @@
   - Refactor code to add new module to SelectiveReceive
 - _2018-07-08 20:45:41_
   - Add an exe for demoing receive* functions
+- _2018-07-08 21:52:55_
+  - Start section on `Process Life Times`
