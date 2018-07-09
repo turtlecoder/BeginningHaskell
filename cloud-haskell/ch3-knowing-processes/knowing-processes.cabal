@@ -44,6 +44,7 @@ library
   -- Modules exported by the library.
   exposed-modules:
                   KnowingProcesses.SelectiveReceive.UsingExpect
+                , KnowingProcesses.SelectiveReceive.UsingReceive
   
   -- Modules included in this library but not exported.
   -- other-modules:       
@@ -63,7 +64,7 @@ library
   -- Base language which the package is written in.
   default-language:    Haskell2010
   
-executable demo-selective-receive
+executable demo-selective-receive-using-expect
            main-is:Main.hs
            hs-source-dirs:
                           src-demo-expect-msg
@@ -71,4 +72,13 @@ executable demo-selective-receive
                          base >= 4.9 && <5.0
                        , knowing-processes
            default-language: Haskell2010
-                
+
+executable demo-selective-receive-using-receive
+           main-is:Main.hs
+           hs-source-dirs:
+                          src-demo-receive-msg
+           build-depends:
+                         base >= 4.9 && <5.0
+                       , knowing-processes
+           default-language: Haskell2010
+                           
