@@ -46,6 +46,7 @@ library
                   KnowingProcesses.SelectiveReceive.UsingExpect
                 , KnowingProcesses.SelectiveReceive.UsingReceive
                 , KnowingProcesses.ProcessLifeTimes.SampleDemos
+                , KnowingProcesses.MonitoringAndLinking
   
   -- Modules included in this library but not exported.
   -- other-modules:       
@@ -99,4 +100,13 @@ executable process-exit-demo2
            build-depends:
                          base >= 4.9 && <5.0
                        , knowing-processes
-           default-language: Haskell2010           
+           default-language: Haskell2010
+
+executable process-link-demo
+           main-is: Main.hs
+           hs-source-dirs:
+                          src-process-link-demo
+           build-depends:
+                         base >= 4.9 && <5.0
+                       , knowing-processes
+           default-language: Haskell2010

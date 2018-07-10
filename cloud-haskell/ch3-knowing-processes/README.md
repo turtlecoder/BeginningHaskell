@@ -12,3 +12,12 @@
   - Add an exe for demoing receive* functions
 - _2018-07-08 21:52:55_
   - Start section on `Process Life Times`
+  - [ ] _Add Links here for_
+    - [ ] _demo1_
+	- [ ] _demo2_
+- _2018-07-09 17:44:50_
+  - Section on `Monitoring and Linking`
+    - Demo program for using `link`
+	  - [ ] _Add links here_
+
+  
