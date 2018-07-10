@@ -9,7 +9,7 @@ linkDemo = do
   say "Hello, from linkDemo parent"
   pid <- spawnLocal $ do
     say "Hello, from linkDemo child"
-    () <- expect
+    () <- expect 
     say "Child Process Done"
   link pid
   send pid ()
