@@ -24,6 +24,6 @@
 - _2018-07-11 07:58:00_
   Finnaly got the program on monitors working. Had to add lots of timing expects as delays 
   to get propert monitor notifications. 
-  - [ ] Add Link here
+  - [entry function](https://github.com/turtlecoder/BeginningHaskell/blob/4d204e18588e5c61e8eb18cf968dabaf0f25a7b3/cloud-haskell/ch3-knowing-processes/src/KnowingProcesses/MonitoringAndLinking.hs#L61)
 
   
