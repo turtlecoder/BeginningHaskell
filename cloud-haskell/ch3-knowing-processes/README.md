@@ -19,5 +19,11 @@
   - Section on `Monitoring and Linking`
     - Demo program for using `link`
 	  - [ ] _Add links here_
+- _2018-07-10 08:29:50_
+  - Start section on `Monitoring`, Same as previous section
+- _2018-07-11 07:58:00_
+  Finnaly got the program on monitors working. Had to add lots of timing expects as delays 
+  to get propert monitor notifications. 
+  - [ ] Add Link here
 
   
