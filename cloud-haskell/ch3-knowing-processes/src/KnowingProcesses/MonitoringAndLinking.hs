@@ -55,16 +55,18 @@ childProcess = do
   expectTimeout 100000 :: Process (Maybe ())
   say "Bye, from child process"
   pid <- getSelfPid
-  kill pid "Die Die Die"
+  kill pid "Die Die Die!!!"
   return ()
 
-demoLinkOnFailure = do
-  backend <- initializeBackend "127.0.0.1" "10501" initRemoteTable
-  node <- newLocalNode backend
-  runProcess node $ do
+parentProcess = do
     say "Hello, from Parent process"
     them <- spawnLocal childProcess
     linkOnFailure them
     expectTimeout 1000000 :: Process (Maybe ())
     say "Bye, from parent process"
+
+demoLinkOnFailure = do
+  backend <- initializeBackend "127.0.0.1" "10501" initRemoteTable
+  node <- newLocalNode backend
+  runProcess node $ parentProcess
     
