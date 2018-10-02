@@ -42,7 +42,8 @@ cabal-version:       >=1.10
 
 library
   -- Modules exported by the library.
-  -- exposed-modules:     
+  exposed-modules:
+        MathServer
   
   -- Modules included in this library but not exported.
   -- other-modules:       
@@ -51,7 +52,20 @@ library
   -- other-extensions:    
   
   -- Other library packages from which modules are imported.
-  build-depends:       base >=4.9 && <4.10
+  build-depends:       base
+                     , distributed-process
+                     , distributed-process-client-server
+                     , distributed-process-extras
+                     , network-transport
+                     , network-transport-tcp
+                     , distributed-process-async
+                     , distributed-process-simplelocalnet
+                     , syb
+                     , containers
+                     , data-default
+                     , random
+                     , binary
+                     , bytestring
   
   -- Directories containing source files.
   hs-source-dirs:      src
