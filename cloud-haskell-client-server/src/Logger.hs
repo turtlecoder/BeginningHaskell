@@ -3,7 +3,7 @@
 module Logger where
 
 import Control.Distributed.Process.Node (runProcess, forkProcess, LocalNode)
-import Control.Distributed.Process (liftIO, match, receiveWait, register, Process, nsend)
+import Control.Distributed.Process (liftIO, match, receiveWait, register, Process, nsend, say)
 import Types
 
 runChatLogger :: LocalNode -> IO ()
@@ -12,19 +12,23 @@ runChatLogger node = do
   logger <- forkProcess node chatLogger
   putStrLn $ "Forked Process Chat Logger: " ++ (show logger)
   runProcess node (register "chatLogger" logger)
-  putStr "Running ChatLogger"
+  putStrLn "Running ChatLogger"
 
 logStr :: String -> Process ()
-logStr = nsend "chatlogger"
+logStr = nsend "chatLogger"
 
 chatLogger :: Process ()
-chatLogger = receiveWait [ match $ \chatMessage -> do
-                             liftIO . putStrLn $ chatMessageToStr chatMessage
-                             chatLogger
-                         , match $ \str -> do
-                             liftIO . putStrLn $ str
-                             chatLogger
-                         ]
+chatLogger = do
+  (liftIO.putStrLn) "Waiting for messages"
+  receiveWait [ match $ \chatMessage -> do
+                  liftIO . putStrLn $ chatMessageToStr chatMessage
+                  chatLogger
+              , match $ \str -> do
+                  say $ "Got Message: " ++ str
+                  (liftIO.putStrLn) str
+                  say $ "Lifted Message"
+                  chatLogger
+              ]
 
 chatMessageToStr :: ChatMessage -> String
 chatMessageToStr ChatMessage{..} = case from of

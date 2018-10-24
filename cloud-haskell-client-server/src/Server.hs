@@ -16,7 +16,8 @@ import Control.Distributed.Process.ManagedProcess (InitResult(..), serve
                                                   , handleRpcChan
                                                   , apiHandlers
                                                   , defaultProcess
-                                                  , ChannelHandler)
+                                                  , ChannelHandler
+                                                  , InitHandler)
 import Control.Distributed.Process (monitorPort,  PortMonitorNotification(..)
                                    , spawnLocal
                                    ,  Process
@@ -24,7 +25,8 @@ import Control.Distributed.Process (monitorPort,  PortMonitorNotification(..)
                                    , DiedReason(..)
                                    , sendPortId
                                    , nodeAddress
-                                   , register)
+                                   , register
+                                   , say)
 import Control.Distributed.Process.ManagedProcess.Server (replyChan, continue)
 
 import Control.Distributed.Process.Extras.Time (Delay(..))
@@ -44,8 +46,8 @@ import Logger
 
 serveChatRoom :: Host -> Int -> ChatName -> IO ()
 serveChatRoom host port name = do
-  let serviceName = "service_chat_room"
-  mt <- createTransport host (show port) (\ _  -> (host, serviceName)) defaultTCPParameters
+  let serviceName = name
+  mt <- createTransport host (show port) (\ _  -> (host, (show port))) defaultTCPParameters
   print "Created Transport"
   case mt of
     Right transport -> do
@@ -55,9 +57,11 @@ serveChatRoom host port name = do
       runProcess node $ do
         (liftIO.putStrLn) "Launching Chat Server"
         pId <- launchChatServer
-        logStr $ "Server Launched at: " ++ show (nodeAddress . processNodeId $ pId)
+        say $ "serveChatRoom: Server launched at: " ++ show (nodeAddress.processNodeId $ pId)
+        logStr $ "serveChatRoom: Server Launched at: " ++ show (nodeAddress . processNodeId $ pId)
         register name pId
-        liftIO $ forever $ threadDelay 500000
+        logStr $ "Server Registered!!!"
+        liftIO $ forever $ threadDelay 1000
     Left err -> print err
         
 
@@ -79,6 +83,7 @@ joinChatHandler sendPort = handler
       if clientName `M.member` clients
       then replyChan sendPort (ChatMessage Server "Nickname already in use ... ") >> continue clients
       else do
+        say "Joining Chat Handler" 
         void $ monitorPort sendPort
         let clients' = M.insert clientName sendPort clients
             msg = clientName ++ " has joined the chat ..."
@@ -106,7 +111,11 @@ launchChatServer = let server = defaultProcess { apiHandlers = [handleRpcChan jo
                    in
                      do
                        (liftIO.putStrLn) "Spawning Local"
-                       spawnLocal $ serve () (const (return $ InitOk M.empty Infinity)) server >> return ()
+                       let initHandler = const $ return $ (InitOk M.empty Infinity)::(InitHandler () ClientPortMap)
+                       pid <- spawnLocal $ serve () initHandler server >> return ()
+                       say $ "launchChatServer: Server Launched at: " ++ (show pid)
+                       return pid
+
                      
 
 
