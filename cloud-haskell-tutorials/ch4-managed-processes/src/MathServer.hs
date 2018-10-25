@@ -37,7 +37,9 @@ launchMathServer = let server = statelessProcess {
                          apiHandlers = [ handleCall_ (\(Add x y) -> return (x+y)) ]
                          , unhandledMessagePolicy = Drop
                          }
-                   in do spawnLocal $ serve () (statelessInit Infinity) server >> return ()
+                   in do
+  let initHandler = statelessInit Infinity
+  spawnLocal $ serve () initHandler server >> return ()
                          
 
 initMathServer :: String -> Int -> IO ()
