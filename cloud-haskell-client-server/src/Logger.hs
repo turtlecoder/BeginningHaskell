@@ -19,14 +19,14 @@ logStr = nsend "chatLogger"
 
 chatLogger :: Process ()
 chatLogger = do
-  (liftIO.putStrLn) "Waiting for messages"
+  (liftIO.putStrLn) "Waiting for Log Messages"
   receiveWait [ match $ \chatMessage -> do
+                  say $ "Got a Chat Message"
                   liftIO . putStrLn $ chatMessageToStr chatMessage
                   chatLogger
               , match $ \str -> do
                   say $ "Got Message: " ++ str
                   (liftIO.putStrLn) str
-                  say $ "Lifted Message"
                   chatLogger
               ]
 

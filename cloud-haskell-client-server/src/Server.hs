@@ -59,6 +59,7 @@ serveChatRoom host port name = do
         pId <- launchChatServer
         say $ "serveChatRoom: Server launched at: " ++ show (nodeAddress.processNodeId $ pId)
         logStr $ "serveChatRoom: Server Launched at: " ++ show (nodeAddress . processNodeId $ pId)
+        say $ "Registering: " ++ name
         register name pId
         logStr $ "Server Registered!!!"
         liftIO $ forever $ threadDelay 1000
@@ -66,7 +67,10 @@ serveChatRoom host port name = do
         
 
 broadcastMessage :: ClientPortMap -> ChatMessage -> Process () 
-broadcastMessage clientPorts msg = forM_ clientPorts (`replyChan` msg)
+-- broadcastMessage clientPorts msg = forM_ clientPorts (`replyChan` msg)
+broadcastMessage clientPorts msg = forM_ clientPorts (\n -> do
+                                                         say $ "Broadcasting Msg: " ++ (show msg)
+                                                         replyChan n msg)
 
 messageHandler :: CastHandler ClientPortMap ChatMessage
 messageHandler = handler
@@ -104,7 +108,8 @@ disconnectHandler clients (PortMonitorNotification _ spId reason) = do
     _ -> continue clients
     
 launchChatServer :: Process ProcessId
-launchChatServer = let server = defaultProcess { apiHandlers = [handleRpcChan joinChatHandler]
+launchChatServer = let server = defaultProcess { apiHandlers = [ handleRpcChan joinChatHandler
+                                                               , handleCast messageHandler]
                                                , infoHandlers = [ handleInfo disconnectHandler ]
                                                , unhandledMessagePolicy = Log
                                                }

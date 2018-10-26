@@ -8,8 +8,9 @@ import Control.Monad.IO.Class (liftIO)
 
 data Options = Options {
   serverAddr :: Maybe String
+  , sport :: Maybe Int 
   , host :: Maybe String
-  , port :: Maybe Int
+  , cport :: Maybe Int
   , chatName :: Maybe String
   }
 
@@ -17,11 +18,12 @@ main :: IO ()
 main = do
   opts <- liftIO (execParser parserInfo)
   case opts of
-    Options Nothing _ _ _ -> putStrLn "Please, provide the server's ADDRESS"
-    Options _ Nothing _ _ -> putStrLn "Please, provide the client's HOST"
-    Options _ _ Nothing _ -> putStrLn "Please, provide the client's PORT"
-    Options _ _ _ Nothing -> putStrLn "Please, provide the client's chatroom NAME"
-    Options (Just addr) (Just h) (Just prt) (Just name) -> launchChatClient addr h prt name
+    Options Nothing _ _ _ _ -> putStrLn "Please, provide the server's ADDRESS"
+    Options _ Nothing _ _ _ -> putStrLn "Please, provide the server's PORT"
+    Options _ _ Nothing _ _ -> putStrLn "Please, provide the client's HOST"
+    Options _ _ _ Nothing _ -> putStrLn "Please, provide the client's PORT"
+    Options _ _ _ _ Nothing -> putStrLn "Please, provide the client's chatroom NAME"
+    Options (Just addr) (Just sport) (Just h) (Just prt) (Just name) -> launchChatClient (addr, sport) (h,prt) name
 
 parserInfo :: ParserInfo Options
 parserInfo = info (helper <*> optionParser)
@@ -38,6 +40,12 @@ optionParser =
     value    Nothing    <>
     help
     "The chat server's address." )
+  <*> option (str >>= parsePort)
+  ( long "sport" <>
+    metavar "SPORT" <>
+    value Nothing <>
+    help
+    "The chat server's port.")
   <*> option (Just <$> str)
   ( long     "host"   <>
     metavar  "HOST"   <>
@@ -45,8 +53,8 @@ optionParser =
     help
     "The chat client's host." )
   <*> option (str >>= parsePort)
-  ( long     "port"   <>
-    metavar  "PORT"   <>
+  ( long     "cport"   <>
+    metavar  "CPORT"   <>
     value    Nothing  <>
     help
     "The chat client's port." )
