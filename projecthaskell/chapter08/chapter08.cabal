@@ -42,7 +42,8 @@ cabal-version:       >=1.10
 
 library
   -- Modules exported by the library.
-  -- exposed-modules:     
+  exposed-modules:
+        TheParMonad.Futures
   
   -- Modules included in this library but not exported.
   -- other-modules:       
@@ -52,6 +53,8 @@ library
   
   -- Other library packages from which modules are imported.
   build-depends:       base >=4.10 && <4.11
+                     , monad-par
+                     , deepseq
   
   -- Directories containing source files.
   hs-source-dirs:      src
@@ -59,3 +62,12 @@ library
   -- Base language which the package is written in.
   default-language:    Haskell2010
   
+executable chapter08-driver
+           main-is: Main.hs
+           hs-souce-dirs: chapter08-driver
+           build-depends: chapter08
+                        , base >=4.10 <4.11
+           default-language: Haskell2010
+           ghc-options:  -threaded -rtsopts -with-rtsopts=-N
+                        
+           
