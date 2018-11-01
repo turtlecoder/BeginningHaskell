@@ -43,11 +43,11 @@ cabal-version:       >=1.10
 library
   -- Modules exported by the library.
   exposed-modules:
-        TheParMonad.Futures
+        Chapter08.TheParMonad.Futures
   
   -- Modules included in this library but not exported.
   other-modules:
-        TheParMonad.DataParallelism
+        Chapter08.TheParMonad.DataParallelism
   
   -- LANGUAGE extensions used by modules in this package.
   -- other-extensions:    

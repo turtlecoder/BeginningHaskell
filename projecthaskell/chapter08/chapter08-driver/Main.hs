@@ -1,6 +1,6 @@
 module Main where
 
-import TheParMonad.Futures
+import Chapter08.TheParMonad.Futures
 
 main :: IO ()
 main = do

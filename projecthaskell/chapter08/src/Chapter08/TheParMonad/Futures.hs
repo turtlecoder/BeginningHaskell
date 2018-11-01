@@ -1,11 +1,8 @@
-
-module TheParMonad.Futures where
+module Chapter08.TheParMonad.Futures where
 
 import Control.DeepSeq
 import Control.Monad.Par
-import Control.Concurrent
-
-
+-- import Control.Concurrent
 
 -- findFactorsIO :: Integer -> IO [Integer]
 -- findFactorsIO 1 = return [1]
