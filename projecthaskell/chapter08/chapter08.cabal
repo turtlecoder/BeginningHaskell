@@ -48,6 +48,7 @@ library
                 , Chapter08.STM.ConcurrentResources
                 , Chapter08.STM.AtomicTransactions.MVar
                 , Chapter08.STM.AtomicTransactions.TVars
+                , Chapter08.STM.AtomicTransactions.TimeMachineStore
   
   -- Modules included in this library but not exported.
   other-modules:
@@ -112,3 +113,15 @@ executable chapter08-stm-atomic-transaction-tvar
                         , base>=4.10 && <4.11
            default-language: Haskell2010
            ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
+
+test-suite test-chapter08
+  type: exitcode-stdio-1.0
+  main-is: Main.hs
+  default-language: Haskell2010
+  hs-source-dirs: test
+  build-depends: base >= 4.10 && <4.11
+               , tasty
+               , tasty-hunit
+               , tasty-quickcheck
+               , tasty-smallcheck
+               , chapter08
