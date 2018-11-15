@@ -43,6 +43,7 @@ cabal-version:       >=1.10
 library
   -- Modules exported by the library.
   exposed-modules: FirstPrinciples.Chapter14.Addition
+                 , FirstPrinciples.Chapter14.Morse
   
   -- Modules included in this library but not exported.
   -- other-modules:       
@@ -52,6 +53,7 @@ library
   
   -- Other library packages from which modules are imported.
   build-depends:       base >=4.10 && <4.11
+                     , containers
   
   -- Directories containing source files.
   hs-source-dirs:      src
@@ -69,3 +71,5 @@ test-suite first-principles-chapter14-tests
            build-depends: base >= 4.10 && <4.11
                         , hspec
                         , first-principles-chapter14
+                        , QuickCheck
+                        
