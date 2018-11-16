@@ -1,10 +1,10 @@
 module FirstPrinciples.Chapter14.Morse
   ( Morse
---   , charToMorse
---   , morseToChar
---   , stringToMorse
+  , charToMorse
+  , morseToChar
+  , stringToMorse
   , letterToMorse
---   , morseToLetter
+  , morseToLetter
   ) where
 
 import qualified Data.Map as M
@@ -22,7 +22,7 @@ letterToMorse = M.fromList [ ('a', ".-")
                            , ('h', "....")
                            , ('i', "..")
                            , ('j', ".---")
-                           , ('k', "-.--")
+                           , ('k', "-.-")
                            , ('l', ".-..")
                            , ('m', "--")
                            , ('n', "-.")
@@ -32,7 +32,7 @@ letterToMorse = M.fromList [ ('a', ".-")
                            , ('r', ".-.-")
                            , ('s', "...")
                            , ('t', "-")
-                           , ('u', "..")
+                           , ('u', "..-")
                            , ('v', "...-")
                            , ('w', ".--")
                            , ('x', "-..-")
@@ -47,6 +47,7 @@ letterToMorse = M.fromList [ ('a', ".-")
                            , ('8', "---..")
                            , ('9', "----.")
                            , ('0', "-----")
+                           , (' ',"/")
                            ]
 
 morseToLetter :: M.Map Morse Char
