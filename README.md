@@ -46,7 +46,8 @@
 
 ## Haskell from First Principles
 
-- [ ] Chapter 14
+- [ ] Chapter 08: Recursion - Under development
+- [ ] Chapter 14: Testing   - Under development
 
 # The Haskell School of Expression: Learning Functional Programming through Multimedia
 
