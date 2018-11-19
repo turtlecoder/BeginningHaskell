@@ -47,6 +47,10 @@
 ## Haskell from First Principles
 
 - [ ] Chapter 08: Recursion - Under development
+  
+  - [x] Completed Excerises on WordNumber
+  - [ ] Do the Rest of the exercises
+
 - [ ] Chapter 14: Testing   - Under development
 
 # The Haskell School of Expression: Learning Functional Programming through Multimedia
