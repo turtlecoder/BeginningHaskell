@@ -27,9 +27,9 @@ digits n = let
   goDigits (unrefine n) []
 
 
-wordNumber :: Int -> Either String String
+wordNumber :: Int -> Either RefineException String
 wordNumber n = do
-  number <- (refine n )::(Either String (Refined Positive Int))
+  number <- (refine n )::(Either RefineException (Refined Positive Int))
   digitList <- Right (digits number)
   let wordList = concat $ intersperse "-" $ fmap digitToWord digitList
   return wordList
