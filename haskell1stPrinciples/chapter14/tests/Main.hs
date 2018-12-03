@@ -1,11 +1,20 @@
+{-# OPTIONS_GHC -fno-warn-type-defaults #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE DataKinds #-}
+{-# LANGUAGE FlexibleInstances #-}
+
 module Main where
 
 import Test.Hspec
-import Test.QuickCheck
+import Test.QuickCheck hiding (Positive)
 import qualified Data.Map as M
 
 import FirstPrinciples.Chapter14.Addition
 import FirstPrinciples.Chapter14.Morse
+
+import Refined
+
+import FirstPrinciples.Chapter08.WordNumber
 
 main :: IO ()
 main = do
@@ -25,7 +34,25 @@ main = do
         2 `multiplyBy` 2 `shouldBe` 4
       it "x+1 is always greater than x" $ do
         property $ \x -> x + 1 > (x::Int)
+      it "WordNumber Module: The Digits List is always nonempty" $ do
+        property prop_digits_list_nonempty
+      it "WordNumber Module: The Digits Lists has always the same number of elements as the number of digits" $ do
+        property prop_numdigits_equal_length
+      it "WordNumber Module: The wordNumber function always returns an error on Negative Numbers" $ do
+        property prop_negative_numbers_always_left
   quickCheck prop_thereAndBackAgain
+
+-- Generators for the digits function in FirstPrinciples.Chapter08.WordNumber
+-- TODO fix this warning
+instance Arbitrary (Refined (From 0) Int) where
+  arbitrary = do
+    pn <- ((arbitrary `suchThat` (\n -> n>=0)) :: Gen Int)
+    let erpn = ((refine pn)::(Either RefineException (Refined (From 0) Int)))
+    case erpn of
+      Left th -> fail (show th)
+      Right rpn -> return rpn
+
+
 
 
 allowedChars :: [Char]
@@ -90,5 +117,20 @@ runQc = quickCheck prop_additionGreater
 runQcF :: IO ()
 runQcF = quickCheck prop_additionGreaterFalsiable
 
+prop_digits_list_nonempty :: Refined (From 0) Int -> Bool
+prop_digits_list_nonempty rpn = case digits rpn of
+  [] -> False
+  _ -> True
 
+prop_numdigits_equal_length :: Refined (From 0) Int -> Bool
+prop_numdigits_equal_length rpn = let
+  digitListLength = length $ digits rpn
+  n = unrefine rpn
+  numDigits = length $ show n 
+  in numDigits == digitListLength
 
+prop_negative_numbers_always_left :: Int -> Bool
+prop_negative_numbers_always_left n = case wordNumber n of
+  Left _  | n <  0 -> True
+  Right _ | n >= 0 -> True
+  _                -> False

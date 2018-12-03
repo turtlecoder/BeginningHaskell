@@ -52,7 +52,7 @@ library
   -- other-extensions:    
   
   -- Other library packages from which modules are imported.
-  build-depends:       base >=4.10 && <4.11
+  build-depends:       base 
                      , containers
   
   -- Directories containing source files.
@@ -65,7 +65,7 @@ executable morse
            main-is: Main.hs
            ghc-options: -Wall -fwarn-tabs
            hs-source-dirs: src-morse
-           build-depends: base >= 4.10 && <4.11
+           build-depends: base 
                         , containers
                         , first-principles-chapter14
            default-language: Haskell2010
@@ -79,9 +79,12 @@ test-suite first-principles-chapter14-tests
            hs-source-dirs: tests
            default-language: Haskell2010
            ghc-options: -Wall
-           build-depends: base >= 4.10 && <4.11
+           build-depends: base
+                        , mtl
                         , hspec
                         , containers
+                        , refined
                         , first-principles-chapter14
+                        , first-principles-chapter08
                         , QuickCheck
                         
