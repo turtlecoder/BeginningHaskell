@@ -1,6 +1,6 @@
 {-# LANGUAGE DataKinds #-}
 
-module FirstPrinciples.Chapter08.WordNumber(wordNumber, digits) where
+module FirstPrinciples.Chapter08.WordNumber(wordNumber, digits, digitToWord) where
 
 import Data.List (intersperse)
 import Refined

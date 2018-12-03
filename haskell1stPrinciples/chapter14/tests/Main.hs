@@ -2,6 +2,7 @@
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE DataKinds #-}
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE TemplateHaskell #-}
 
 module Main where
 
@@ -34,13 +35,35 @@ main = do
         2 `multiplyBy` 2 `shouldBe` 4
       it "x+1 is always greater than x" $ do
         property $ \x -> x + 1 > (x::Int)
+    describe "WordModule Properties" $ do        
       it "WordNumber Module: The Digits List is always nonempty" $ do
         property prop_digits_list_nonempty
       it "WordNumber Module: The Digits Lists has always the same number of elements as the number of digits" $ do
         property prop_numdigits_equal_length
       it "WordNumber Module: The wordNumber function always returns an error on Negative Numbers" $ do
         property prop_negative_numbers_always_left
+    describe "WordNumber Unit Tests: digitToWord" $ do
+      it "returns zero for 0" $ do
+        digitToWord 0 `shouldBe` "zero"
+    describe "WordNUmber Unit Tests: digits" $ do
+      it "returns [1] for 1" $ do
+        let refinedOne = $$(refineTH 1) :: Refined (From 0) Int
+        digits refinedOne `shouldBe` [1]
+      it "returns [1,0,0] for 100" $ do
+        let refinedOneHundred = $$(refineTH 100) :: Refined (From 0) Int
+        digits refinedOneHundred `shouldBe` [1,0,0]
+    let wordNumberConv :: Int -> Either () [Char]
+        wordNumberConv n = case wordNumber n of
+                             Left _ -> Left ()
+                             Right s -> (Right s)
+          
+    describe "WprdNumber Unit Tests: wordNumber" $ do
+      it "one-zero-zero given 100" $ do
+        wordNumberConv 100 `shouldBe` Right "one-zero-zero"
+      it "nine-zero-zero-one given 9001" $ do
+        wordNumberConv 9001 `shouldBe` Right "nine-zero-zero-one"
   quickCheck prop_thereAndBackAgain
+
 
 -- Generators for the digits function in FirstPrinciples.Chapter08.WordNumber
 -- TODO fix this warning
