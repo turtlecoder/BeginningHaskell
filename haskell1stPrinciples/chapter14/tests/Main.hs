@@ -16,6 +16,7 @@ import FirstPrinciples.Chapter14.Morse
 import Refined
 
 import FirstPrinciples.Chapter08.WordNumber
+import Data.List (sort)
 
 main :: IO ()
 main = do
@@ -62,20 +63,138 @@ main = do
         wordNumberConv 100 `shouldBe` Right "one-zero-zero"
       it "nine-zero-zero-one given 9001" $ do
         wordNumberConv 9001 `shouldBe` Right "nine-zero-zero-one"
+    describe "For half" $ do
+      it "halfIdentity should hold" $ do
+        property prop_checkHalfIdentity
+    describe "List Ordered" $ do
+      it "ordered list property should hold" $ do
+        property (prop_checkSortedList :: [Int] -> Bool)
+    describe "Associativity/Commutativity" $ do
+      it "Addition is associative" $ do
+        property (plusAssociative :: Int -> Int -> Int -> Bool)
+      it "Addition is commutative" $ do
+        property (plusCommutative :: Int -> Int -> Bool)
+      it "Multiplication is associative" $ do
+        property ((\a b c -> a * (b * c) == (a * b) * c) :: Int -> Int -> Int -> Bool)
+      it "Multiplication is commutative" $ do
+        property ((\ a b -> a * b == b * a) :: Int -> Int -> Bool)
+    describe "quot & rem obey the law" $ do
+      it "quot and rem equals x" $ do
+        property quot_rem_law
+    describe "div & mod obey the law" $ do
+      it "div and rem equals x" $ do
+        property div_mod_law
+    -- Exercise 6
+    describe "Operator ^ Associativity & commutivity" $ do
+      it "Contradict Associativity" $ do
+        property prop_power_associative
+      it "Contradict Commutivity" $ do
+        property prop_power_commutative
+    describe "2x Reverse a list" $ do
+      it "Reverse a list:Int " $ do
+        property (prop_reverse_2x::[Int] -> Bool)
+      it "Reverse a list:Chars" $ do
+        property (prop_reverse_2x::[Char]->Bool)
+    describe "Properties of Compose and Application" $ do
+      it "..." $ do
+        property prop_compose_dollar
+    describe "Check folding functions" $ do
+      it "foldr (:) == (++)" $ do
+        property prop_check_foldr_cons_plusplus
+      it "foldr (++) [] == concat" $ do
+        property prop_check_foldr_concat
   quickCheck prop_thereAndBackAgain
+
+
+
+
+-- Excercise 3
+plusAssociative :: (Eq a, Num a) => a -> a -> a -> Bool
+plusAssociative x y z = x + (y + z) == (x + y) + z
+
+plusCommutative :: Int -> Int -> Bool
+plusCommutative a b = a + b == b + a
+
+-- Excercise 1
+-- half :: Refined  -> Int
+half :: Fractional a => a -> a
+half x = x/2
+
+halfIdentity :: Double -> Double
+halfIdentity = (*2).half
+
+prop_checkHalfIdentity :: Double -> Bool
+prop_checkHalfIdentity d = halfIdentity d == d 
+
+
+-- Exercise 2
+-- For any list you apply sort to
+-- this property should hold
+listOrdered :: (Ord a) => [a] -> Bool
+listOrdered xs =
+  snd $ foldr go (Nothing, True) xs
+  where go _ status@(Nothing, True) = status
+        go y (Nothing, t) = (Just y, t)
+        go y (Just x, t) = (Just y, x>=y)
+  
+prop_checkSortedList :: (Ord a) => [a] -> Bool
+prop_checkSortedList al = listOrdered $ sort al 
 
 
 -- Generators for the digits function in FirstPrinciples.Chapter08.WordNumber
 -- TODO fix this warning
 instance Arbitrary (Refined (From 0) Int) where
   arbitrary = do
-    pn <- ((arbitrary `suchThat` (\n -> n>=0)) :: Gen Int)
+    pn <- ((arbitrary `suchThat` (\n -> n >= 0 ) :: Gen Int))
     let erpn = ((refine pn)::(Either RefineException (Refined (From 0) Int)))
     case erpn of
       Left th -> fail (show th)
       Right rpn -> return rpn
 
+-- Exercise 5
+newtype PosInt = PosInt { n::Int } deriving (Eq, Ord, Show)
 
+quot_rem_law :: Int -> PosInt  -> Bool
+quot_rem_law x (PosInt y ) = (quot x y)*y + (rem x y) == x
+
+div_mod_law :: Int -> PosInt -> Bool
+div_mod_law x (PosInt y) = (div x y)*y + (mod x y) == x 
+
+instance Arbitrary PosInt where
+  arbitrary = do
+    pn <- ((arbitrary `suchThat` (\nx -> nx > 0)) :: Gen Int)
+    return $ PosInt pn
+
+-- Exercise 6
+-- Use expectFailure
+prop_power_associative :: Property
+prop_power_associative = expectFailure
+                         (forAll (arbitrary::Gen Int)
+                          (((\a b c -> a^(b^c) == (a^b)^c))::(Int -> Int -> Int -> Bool)))
+
+prop_power_commutative :: Property
+prop_power_commutative = expectFailure
+                         (forAll (arbitrary::Gen (PosInt))
+                          (\(PosInt a) (PosInt b) -> a^b == b^a))
+
+-- Excercise 7
+prop_reverse_2x :: (Eq a) => [a] -> Bool
+prop_reverse_2x al = (reverse.reverse) al  == id al 
+
+
+-- Excercise 8
+prop_compose_dollar :: Property
+prop_compose_dollar = forAll (arbitrary::Gen Int) (\x -> ((id.id) $ x) == (id $ id $ x) )
+
+-- Excercise 9
+prop_check_foldr_cons_plusplus :: Property
+prop_check_foldr_cons_plusplus = counterexample "Found a Counter Example"
+                                 (forAll (arbitrary::Gen [Int])
+                                   (\al bl -> (foldr (:) al  bl)  == bl ++ al))
+
+prop_check_foldr_concat :: Property
+prop_check_foldr_concat = forAll (arbitrary::Gen [[Char]])
+                          (\al -> (foldr (++) [] al) == concat al )
 
 
 allowedChars :: [Char]

@@ -76,6 +76,7 @@ test-suite first-principles-chapter14-tests
            main-is: Main.hs
            other-modules: ArbitraryInstances
                         , CoArbitraryInstances
+                        , CoArbitrarySample
            hs-source-dirs: tests
            default-language: Haskell2010
            ghc-options: -Wall
@@ -87,4 +88,5 @@ test-suite first-principles-chapter14-tests
                         , first-principles-chapter14
                         , first-principles-chapter08
                         , QuickCheck
+                        , random
                         
