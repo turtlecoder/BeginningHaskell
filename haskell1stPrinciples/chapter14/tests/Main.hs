@@ -106,6 +106,9 @@ main = do
     describe "Check Exercise 10: f" $ do
       it "f n xs = length (take n xs) == n" $ do
         property prop_check_f10
+    describe "Check Exercise 11" $ do
+      it "f x = (read (show x)) ==  x" $ do
+        property propCheckReadShow
   quickCheck prop_thereAndBackAgain
 
 
@@ -211,7 +214,13 @@ prop_check_f10 :: Property
 prop_check_f10 = forAll (arbitrary::Gen (F10 Int))
                  (\(F10 { tup = (n, xs) }) -> f n xs)
                  where
-                   f n xs = length (take n xs) == n 
+                   f n xs = length (take n xs) == n
+
+propCheckReadShow :: Property
+propCheckReadShow = forAll (arbitrary :: Gen Int)
+                    (\a -> (f a))
+  where
+    f x = (read (show x)) == x 
 
 prop_check_foldr_concat :: Property
 prop_check_foldr_concat = forAll (arbitrary::Gen [[Char]])
