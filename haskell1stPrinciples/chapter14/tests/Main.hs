@@ -4,7 +4,7 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Main where
+module Main  where
 
 import Test.Hspec
 import Test.QuickCheck hiding (Positive)
@@ -103,6 +103,9 @@ main = do
         property prop_check_foldr_cons_plusplus
       it "foldr (++) [] == concat" $ do
         property prop_check_foldr_concat
+    describe "Check Exercise 10: f" $ do
+      it "f n xs = length (take n xs) == n" $ do
+        property prop_check_f10
   quickCheck prop_thereAndBackAgain
 
 
@@ -191,6 +194,24 @@ prop_check_foldr_cons_plusplus :: Property
 prop_check_foldr_cons_plusplus = counterexample "Found a Counter Example"
                                  (forAll (arbitrary::Gen [Int])
                                    (\al bl -> (foldr (:) al  bl)  == bl ++ al))
+
+-- Exercise 10
+newtype F10 xt = F10 {
+  tup :: (Int, [xt])
+  } deriving (Show)
+
+instance (Arbitrary a) => (Arbitrary (F10 a)) where
+  arbitrary = do
+    lst <- listOf arbitrary
+    n <- choose (0,((length lst)))
+    return F10 { tup = (n, lst) }
+      
+  
+prop_check_f10 :: Property
+prop_check_f10 = forAll (arbitrary::Gen (F10 Int))
+                 (\(F10 { tup = (n, xs) }) -> f n xs)
+                 where
+                   f n xs = length (take n xs) == n 
 
 prop_check_foldr_concat :: Property
 prop_check_foldr_concat = forAll (arbitrary::Gen [[Char]])
