@@ -105,14 +105,30 @@ main = do
         property prop_check_foldr_concat
     describe "Check Exercise 10: f" $ do
       it "f n xs = length (take n xs) == n" $ do
-        property prop_check_f10
+        property propCheckF10
     describe "Check Exercise 11" $ do
       it "f x = (read (show x)) ==  x" $ do
         property propCheckReadShow
+    describe "Failure on Square Identity" $ do
+      it "exists n where squareIdentity n != n" $ do
+        property prop_squareIdentity
   quickCheck prop_thereAndBackAgain
 
 
+-- ---------------------------------------------
 
+-- Exercise on Failure
+
+square :: Num a => a -> a
+square x = x * x
+
+squareIdentity :: Double -> Double
+squareIdentity = square.sqrt
+
+prop_squareIdentity :: Property
+prop_squareIdentity = expectFailure $
+  forAll (arbitrary::Gen Double) (\n -> (squareIdentity n) == n )
+                                                     
 
 -- Excercise 3
 plusAssociative :: (Eq a, Num a) => a -> a -> a -> Bool
@@ -210,11 +226,11 @@ instance (Arbitrary a) => (Arbitrary (F10 a)) where
     return F10 { tup = (n, lst) }
       
   
-prop_check_f10 :: Property
-prop_check_f10 = forAll (arbitrary::Gen (F10 Int))
-                 (\(F10 { tup = (n, xs) }) -> f n xs)
-                 where
-                   f n xs = length (take n xs) == n
+propCheckF10 :: Property
+propCheckF10 = forAll (arbitrary::Gen (F10 Int))
+               (\(F10 { tup = (n, xs) }) -> f n xs)
+  where
+    f n xs = length (take n xs) == n
 
 propCheckReadShow :: Property
 propCheckReadShow = forAll (arbitrary :: Gen Int)
