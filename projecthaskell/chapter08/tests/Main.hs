@@ -1,6 +1,7 @@
 module Main where
 
 import Test.Hspec
+import Chapter08.TheParMonad.Futures
 
 -- import Test.HUnit
 
@@ -22,6 +23,10 @@ main = hspec $ do
       15 `dividedBy` 3 `shouldBe` (5, 0)
     it "22 dividedBy 5 is 4 remainder 2" $ do
       22 `dividedBy` 5 `shouldBe` (4, 2)
+  describe "Testing Chapter08.TheParMonad.Futures" $ do
+    it "findTwofactors 123300 24256" $ do
+      (findTwoFactors 123300 24256) `shouldNotBe` ((mempty, mempty)::([Integer], [Integer]))
+  
 
 dividedBy :: Integral a => a -> a -> (a, a)
 dividedBy num denom = go num denom 0
