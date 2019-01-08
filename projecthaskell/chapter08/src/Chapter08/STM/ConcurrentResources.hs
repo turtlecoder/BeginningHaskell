@@ -20,7 +20,6 @@ mainUpdateMoney = do v <- newMVar 10000
                      putStrLn $ "Creating Thread 2: " ++ show t2
                      t3 <- forkIO $ updateMoney v
                      putStrLn $ "Creating Thread 3: " ++ show t3
-                     _ <- getLine
                      return ()
 
 
@@ -45,5 +44,4 @@ mainRandomUpdatesReads :: IO ()
 mainRandomUpdatesReads  = do v <- newMVar 10000
                              forkDelay 5 $ updateMoney v
                              forkDelay 5 $ readMoney v
-                             _ <- getLine
                              return ()

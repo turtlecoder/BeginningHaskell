@@ -75,13 +75,6 @@ library
   ghc-options:         -Wall 
   
                         
-executable chapter08-stm-driver
-           main-is: Main.hs
-           hs-source-dirs: chapter08-stm-driver
-           build-depends: chapter08
-                        , base
-           default-language: Haskell2010
-           ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
 
 executable chapter08-stm-random-updates
            main-is: Main.hs

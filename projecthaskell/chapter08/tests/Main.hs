@@ -2,6 +2,7 @@ module Main where
 
 import Test.Hspec
 import Chapter08.TheParMonad.Futures
+import Chapter08.STM.ConcurrentResources 
 
 -- import Test.HUnit
 
@@ -26,6 +27,17 @@ main = hspec $ do
   describe "Testing Chapter08.TheParMonad.Futures" $ do
     it "findTwofactors 123300 24256" $ do
       (findTwoFactors 123300 24256) `shouldNotBe` ((mempty, mempty)::([Integer], [Integer]))
+    it "findTwoFactors 123300 245256 should match" $ do
+      (findTwoFactors 123300 24256) `shouldSatisfy` (\(_:_, _:_) -> True)
+  describe "Testing Chapter08.STM.ConcurrentResources" $ do
+    -- testing simple IO actions
+    res1 <- (runIO mainUpdateMoney)
+    it "mainUpdateMoney" $ do
+      res1 `shouldBe` ()
+    res2 <- runIO mainRandomUpdatesReads
+    it "mainRandomUpdatesReads" $ do
+      res2 `shouldBe` ()
+    -- How to redirect stdout to buffer in haskell??
   
 
 dividedBy :: Integral a => a -> a -> (a, a)
