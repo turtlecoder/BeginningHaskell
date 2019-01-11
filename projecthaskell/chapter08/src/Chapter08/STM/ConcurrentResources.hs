@@ -1,6 +1,7 @@
 module Chapter08.STM.ConcurrentResources where
 
 import Control.Concurrent
+import Control.Concurrent.Async
 import System.Random
 import Control.Monad
   
@@ -13,13 +14,17 @@ updateMoney v = do m <- takeMVar v
 
 
 mainUpdateMoney :: IO ()
-mainUpdateMoney = do v <- newMVar 10000
-                     t1 <- forkIO $ updateMoney v
-                     putStrLn $ "Creating Thread 1: " ++ show t1
-                     t2 <- forkIO $ updateMoney v
-                     putStrLn $ "Creating Thread 2: " ++ show t2
-                     t3 <- forkIO $ updateMoney v
-                     putStrLn $ "Creating Thread 3: " ++ show t3
+mainUpdateMoney = do putStrLn "\nmainUpdateMoney\n================="
+                     v <- newMVar 10000
+                     t1 <- async $ updateMoney v
+                     putStrLn $ "Creating Thread 1: " ++ (show $ asyncThreadId t1)
+                     t2 <- async $ updateMoney v
+                     putStrLn $ "Creating Thread 2: " ++ (show $ asyncThreadId t2)
+                     t3 <- async $ updateMoney v
+                     putStrLn $ "Creating Thread 3: " ++ (show $ asyncThreadId t3)
+                     wait t1
+                     wait t2
+                     wait t3
                      return ()
 
 
@@ -34,14 +39,17 @@ randomDelay = do r <- randomRIO (3, 15)
 
 
 -- Create a forkdelay function, to spawn n threads with a random waiting time before
-forkDelay :: Int -> IO () -> IO ()
-forkDelay n f = replicateM_ n $ do tid <- forkIO (randomDelay >> f )
-                                   putStrLn $ "Creating Thread ID: " ++ show tid
-                                   return ()
+
+forkDelay :: Int -> IO a -> IO [Async a]
+forkDelay n f = replicateM n $ do tid <- async (randomDelay >> f )
+                                  putStrLn $ "Creating Thread ID: " ++ (show $ asyncThreadId tid)
+                                  return tid
                  
 
 mainRandomUpdatesReads :: IO ()
-mainRandomUpdatesReads  = do v <- newMVar 10000
-                             forkDelay 5 $ updateMoney v
-                             forkDelay 5 $ readMoney v
+mainRandomUpdatesReads  = do putStrLn "\nmainRandomUpdatesRead\n======================"
+                             v <- newMVar 10000
+                             tidList1 <- forkDelay 5 $ updateMoney v
+                             tidList2 <- forkDelay 5 $ readMoney v
+                             mapM_ (\tid -> wait tid) (tidList1 ++ tidList2) 
                              return ()

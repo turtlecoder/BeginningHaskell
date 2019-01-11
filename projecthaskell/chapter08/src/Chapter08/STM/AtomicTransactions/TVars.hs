@@ -1,9 +1,11 @@
 module Chapter08.STM.AtomicTransactions.TVars where
 
 import Control.Concurrent.STM.TVar
+import Control.Concurrent.Async
 import Control.Monad.STM
 import Prelude hiding (product)
 import Chapter08.STM.ConcurrentResources
+
 
 updateMoneyAndStock::Eq a => a -> Integer -> TVar Integer -> TVar [(a, Integer)] -> STM ()
 updateMoneyAndStock product price money stock =
@@ -18,8 +20,11 @@ updateMoneyAndStock product price money stock =
 
 
 mainAtomicTransactionsTVar :: IO ()
-mainAtomicTransactionsTVar = do v <- newTVarIO 10000
-                                s <- newTVarIO [("a", 7)]
-                                forkDelay 5 $ atomically $ updateMoneyAndStock "a" 1000 v s
-                                _ <- getLine
-                                return ()
+mainAtomicTransactionsTVar = do
+  putStrLn "\nmainAtomicTransactionsTVar\n=========================="
+  v <- newTVarIO 10000
+  s <- newTVarIO [("a", 7)]
+  tidList <- forkDelay 10 $ atomically $ updateMoneyAndStock "a" 1000 v s
+  mapM_ (\tid -> wait tid) tidList
+  putStrLn "After thread delay"
+  return ()

@@ -1,15 +1,17 @@
 module Chapter08.STM.AtomicTransactions.MVar where
 
 import Control.Concurrent
+import Control.Concurrent.Async
 import Prelude hiding (product)
 import Chapter08.STM.ConcurrentResources
 
 mainAtomicTransactionsMVar :: IO ()
-mainAtomicTransactionsMVar = do v <- newMVar 10000
+mainAtomicTransactionsMVar = do putStrLn "\nmainAtomicTransactionsMVar\n==============="
+                                v <- newMVar 10000
                                 s <- newMVar [("a", 7)]
-                                forkDelay 5 $ updateMoneyAndStock "a" 1000 v s
-                                forkDelay 5 $ printMoneyAndStock v s
-                                _ <- getLine
+                                tidList1 <- forkDelay 5 $ updateMoneyAndStock "a" 1000 v s
+                                tidList2 <- forkDelay 5 $ printMoneyAndStock v s
+                                mapM_ (\tid -> wait tid) (tidList1 ++ tidList2)
                                 return ()
 
 updateMoneyAndStock :: Eq a => a -> Integer -> MVar Integer -> MVar [(a, Integer)] -> IO ()

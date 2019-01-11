@@ -1,8 +1,11 @@
+{-# OPTIONS_GHC -fno-warn-name-shadowing #-}
 module Main where
 
 import Test.Hspec
 import Chapter08.TheParMonad.Futures
-import Chapter08.STM.ConcurrentResources 
+import Chapter08.STM.ConcurrentResources
+import Chapter08.STM.AtomicTransactions.MVar
+import Chapter08.STM.AtomicTransactions.TVars
 
 -- import Test.HUnit
 
@@ -31,12 +34,22 @@ main = hspec $ do
       (findTwoFactors 123300 24256) `shouldSatisfy` (\(_:_, _:_) -> True)
   describe "Testing Chapter08.STM.ConcurrentResources" $ do
     -- testing simple IO actions
-    res1 <- (runIO mainUpdateMoney)
+    res <- runIO mainUpdateMoney
     it "mainUpdateMoney" $ do
-      res1 `shouldBe` ()
-    res2 <- runIO mainRandomUpdatesReads
+      res `shouldBe` ()
+    res <- runIO mainRandomUpdatesReads
     it "mainRandomUpdatesReads" $ do
-      res2 `shouldBe` ()
+      res `shouldBe` ()
+  describe "Testing Chapter08.STM.AtomicTransactions.MVar" $ do
+    res <- runIO mainAtomicTransactionsMVar
+    it "mainAtomicTransactionsMVar" $ do
+      res `shouldBe` ()
+  describe "Testing Chapter08.STM.AtomicTransactions.TVar" $ do
+    res4 <- runIO mainAtomicTransactionsTVar
+    it "mainAtomicTransactionsTVar" $ do
+      res4 `shouldBe` ()
+  
+
     -- How to redirect stdout to buffer in haskell??
   
 

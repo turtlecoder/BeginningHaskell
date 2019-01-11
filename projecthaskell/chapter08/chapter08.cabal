@@ -66,6 +66,8 @@ library
                      , deepseq
                      , random
                      , stm
+                     , concurrent-extra
+                     , async
   
   -- Directories containing source files.
   hs-source-dirs:      src
@@ -75,30 +77,6 @@ library
   ghc-options:         -Wall 
   
                         
-
-executable chapter08-stm-random-updates
-           main-is: Main.hs
-           hs-source-dirs: chapter08-stm-random-updates
-           build-depends: chapter08
-                        , base
-           default-language: Haskell2010
-           ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
-
-executable chapter08-stm-atomic-transactions-mvar
-           main-is: Main.hs
-           hs-source-dirs: chapter08-stm-atomic-transactions-mvar
-           build-depends: chapter08
-                        , base
-           default-language: Haskell2010
-           ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
-
-executable chapter08-stm-atomic-transaction-tvar
-           main-is: Main.hs
-           hs-source-dirs: chapter08-stm-atomic-transactions-tvar
-           build-depends: chapter08
-                        , base
-           default-language: Haskell2010
-           ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
 
 test-suite test-chapter08
   type: exitcode-stdio-1.0
