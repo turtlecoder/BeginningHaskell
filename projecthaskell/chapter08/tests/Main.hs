@@ -6,6 +6,7 @@ import Chapter08.TheParMonad.Futures
 import Chapter08.STM.ConcurrentResources
 import Chapter08.STM.AtomicTransactions.MVar
 import Chapter08.STM.AtomicTransactions.TVars
+import Chapter08.STM.AtomicTransactions.TimeMachineStore
 
 -- import Test.HUnit
 
@@ -48,6 +49,10 @@ main = hspec $ do
     res4 <- runIO mainAtomicTransactionsTVar
     it "mainAtomicTransactionsTVar" $ do
       res4 `shouldBe` ()
+  describe "Ex 2: Testing Time Machine Store Simulation" $ do
+    res5 <- runIO timeMachinesSimulationIO
+    it "The functin should return ()" $ do
+      res5 `shouldBe` ()
   
 
     -- How to redirect stdout to buffer in haskell??
