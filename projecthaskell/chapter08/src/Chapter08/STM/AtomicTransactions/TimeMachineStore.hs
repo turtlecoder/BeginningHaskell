@@ -13,6 +13,9 @@ type TimeMachinesUsed = S.Set Integer
 type AvailableTimeMachines = Integer
 type TargetYear = Integer
 
+
+-- Exercise 8-2
+-- ------------
 timeMachineSimulation :: TVar TimeMachinesUsed -> AvailableTimeMachines -> TargetYear -> STM ()
 timeMachineSimulation currentTMsInUse ul targetYear =
   do tmsInUse <- readTVar currentTMsInUse
