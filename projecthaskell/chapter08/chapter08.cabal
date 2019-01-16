@@ -49,6 +49,7 @@ library
                 , Chapter08.STM.AtomicTransactions.MVar
                 , Chapter08.STM.AtomicTransactions.TVars
                 , Chapter08.STM.AtomicTransactions.TimeMachineStore
+                , Chapter08.STM.ProducerConsumerQueues
   
   -- Modules included in this library but not exported.
   other-modules:

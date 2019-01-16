@@ -7,6 +7,7 @@ import Chapter08.STM.ConcurrentResources
 import Chapter08.STM.AtomicTransactions.MVar
 import Chapter08.STM.AtomicTransactions.TVars
 import Chapter08.STM.AtomicTransactions.TimeMachineStore
+import Chapter08.STM.ProducerConsumerQueues
 
 -- import Test.HUnit
 
@@ -49,10 +50,14 @@ main = hspec $ do
     res4 <- runIO mainAtomicTransactionsTVar
     it "mainAtomicTransactionsTVar" $ do
       res4 `shouldBe` ()
-  describe "Ex 2: Testing Time Machine Store Simulation" $ do
+  describe "Ex 8-2: Testing Time Machine Store Simulation" $ do
     res5 <- runIO timeMachinesSimulationIO
-    it "The functin should return ()" $ do
+    it "The function should return ()" $ do
       res5 `shouldBe` ()
+  describe "Ex 8-3: Testing Time Machine Store Simulation" $ do
+    res6 <- runIO mainProducerConsumer
+    it "The function mainProducerConsumer should return ()" $ do 
+      res6 `shouldBe` ()
   
 
     -- How to redirect stdout to buffer in haskell??
