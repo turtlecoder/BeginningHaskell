@@ -50,6 +50,9 @@ library
                 , Chapter08.STM.AtomicTransactions.TVars
                 , Chapter08.STM.AtomicTransactions.TimeMachineStore
                 , Chapter08.STM.ProducerConsumerQueues
+                , Chapter08.CloudHaskell.LookingForGalaxies
+                , Chapter08.CloudHaskell.TimeMachineStore
+
   
   -- Modules included in this library but not exported.
   other-modules:
@@ -69,6 +72,9 @@ library
                      , stm
                      , concurrent-extra
                      , async
+                     , binary
+                     , distributed-process
+                     , distributed-process-simplelocalnet
   
   -- Directories containing source files.
   hs-source-dirs:      src
