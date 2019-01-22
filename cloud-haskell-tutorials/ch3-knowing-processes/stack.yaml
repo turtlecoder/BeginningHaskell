@@ -1,0 +1,6 @@
+flags: {}
+packages:
+- .
+extra-deps:
+- distributed-process-extras-0.3.5
+resolver: lts-11.16

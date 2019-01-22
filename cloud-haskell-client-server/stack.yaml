@@ -1,0 +1,8 @@
+flags: {}
+packages:
+- .
+extra-deps:
+- distributed-process-async-0.2.6
+- distributed-process-client-server-0.2.5.1
+- distributed-process-extras-0.3.5
+resolver: lts-11.20
