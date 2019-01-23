@@ -29,7 +29,7 @@
 - [ ] Chapter 4
 - [x] Chapter 5
 - [ ] Chapter 6
-- [ ] Chapter 7
+- [ ] Chapter 7 _WIP_
 - [ ] Chapter 8
 - [ ] Chapter 9
 - [ ] Chapter 10
