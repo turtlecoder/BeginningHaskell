@@ -2,7 +2,7 @@
 --  further documentation, see http://haskell.org/cabal/users-guide/
 
 -- The name of the package.
-name:                real-world-haskell-chapter06
+name:                real-world-haskell-chapter07
 
 -- The package version.  See the Haskell package versioning policy (PVP)
 -- for standards guiding when and how versions should be incremented.
@@ -42,7 +42,7 @@ cabal-version:       >=1.10
 
 library
   -- Modules exported by the library.
-  -- exposed-modules:
+  exposed-modules: RealWorldHaskell.Chapter07.BasicIO
 
   -- Modules included in this library but not exported.
   -- other-modules:
@@ -51,7 +51,7 @@ library
   -- other-extensions:
 
   -- Other library packages from which modules are imported.
-  build-depends:       base >=4.11 && <4.12
+  build-depends:       base
 
   -- Directories containing source files.
   hs-source-dirs:      src
