@@ -29,8 +29,8 @@
 - [ ] Chapter 4
 - [x] Chapter 5
 - [ ] Chapter 6
-- [x] [Chapter 7](./real-world-haskell/ch07)
-- [ ] Chapter 8
+- [x] [Chapter 7: I/O](./real-world-haskell/ch07)
+- [ ] [Chapter 8: Efficient File Processing, Regular Expressions, and File Name matching](./real-world-haskell/ch08)
 - [ ] Chapter 9
 - [ ] Chapter 10
 - [ ] Chapter 11
