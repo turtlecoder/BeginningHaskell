@@ -44,6 +44,7 @@ library
   -- Modules exported by the library.
   exposed-modules: RealWorldHaskell.Chapter07.BasicIO
                  , RealWorldHaskell.Chapter07.ToUpperImp
+                 , RealWorldHaskell.Chapter07.ExtendedExample.TempFile
 
   -- Modules included in this library but not exported.
   -- other-modules:
@@ -53,6 +54,8 @@ library
 
   -- Other library packages from which modules are imported.
   build-depends:       base
+                     , directory
+                     , temporary
 
   -- Directories containing source files.
   hs-source-dirs:      src

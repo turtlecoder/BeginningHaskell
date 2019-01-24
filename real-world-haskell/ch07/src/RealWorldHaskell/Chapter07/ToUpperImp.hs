@@ -1,6 +1,5 @@
 module RealWorldHaskell.Chapter07.ToUpperImp where
 
-
 import System.IO
 import Data.Char(toUpper)
 
