@@ -29,7 +29,7 @@
 - [ ] Chapter 4
 - [x] Chapter 5
 - [ ] Chapter 6
-- [ ] Chapter 7 _WIP_
+- [x] [Chapter 7](./real-world-haskell/ch07)
 - [ ] Chapter 8
 - [ ] Chapter 9
 - [ ] Chapter 10
