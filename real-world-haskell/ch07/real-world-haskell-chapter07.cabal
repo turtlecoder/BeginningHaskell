@@ -43,6 +43,7 @@ cabal-version:       >=1.10
 library
   -- Modules exported by the library.
   exposed-modules: RealWorldHaskell.Chapter07.BasicIO
+                 , RealWorldHaskell.Chapter07.ToUpperImp
 
   -- Modules included in this library but not exported.
   -- other-modules:
