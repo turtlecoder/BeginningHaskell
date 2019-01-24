@@ -1,3 +1,3 @@
-# Real World Haskell Chapter 6 Notes
+# Real World Haskell Chapter 7 Notes
 
 _WIP_
