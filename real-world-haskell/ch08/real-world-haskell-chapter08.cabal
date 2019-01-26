@@ -42,7 +42,10 @@ cabal-version:       >=1.10
 
 library
   -- Modules exported by the library.
-  -- exposed-modules:
+  exposed-modules: RealWorldHaskell.Chapter08.SumFile
+                 , RealWorldHaskell.Chapter08.ElfMagic
+                 , RealWorldHaskell.Chapter08.HighestClose
+                 , RealWorldHaskell.Chapter08.GlobRegex
 
   -- Modules included in this library but not exported.
   -- other-modules:
@@ -51,7 +54,9 @@ library
   -- other-extensions:
 
   -- Other library packages from which modules are imported.
-  build-depends:       base >=4.11 && <4.12
+  build-depends:       base
+                     , bytestring
+                     , regex-posix
 
   -- Directories containing source files.
   hs-source-dirs:      src
