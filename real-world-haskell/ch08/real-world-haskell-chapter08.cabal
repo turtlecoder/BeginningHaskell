@@ -46,6 +46,7 @@ library
                  , RealWorldHaskell.Chapter08.ElfMagic
                  , RealWorldHaskell.Chapter08.HighestClose
                  , RealWorldHaskell.Chapter08.GlobRegex
+                 , RealWorldHaskell.Chapter08.Glob
 
   -- Modules included in this library but not exported.
   -- other-modules:
@@ -57,6 +58,8 @@ library
   build-depends:       base
                      , bytestring
                      , regex-posix
+                     , directory
+                     , filepath
 
   -- Directories containing source files.
   hs-source-dirs:      src
