@@ -16,15 +16,19 @@ data Gender = Male | Female | Other deriving Show
 -- Time Machine Data
 data TimeMachine = TimeMachine Manufacturer  Model Name Direction Price deriving Show
 
-data Manufacturer = Manufacturer String deriving Show
+newtype Manufacturer = Manufacturer String deriving Show
 
 type Model = Integer
 
 type Price = Double
 
-data Name = Name String deriving Show
+newtype Name = Name String deriving Show
 
 data Direction = Forward | Backward deriving Show
+
+-- >>> let cl = GovOrg "Nasa"
+-- >>> cl
+-- GovOrg "Nasa"
 
 
 

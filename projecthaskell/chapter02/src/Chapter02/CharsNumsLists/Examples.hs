@@ -34,9 +34,17 @@ lst4 = lst3 ++ [XString "Khan", XInt 3]
 -- Excercise 2-1
 lst5 = ('a':'b':'c':[]):('d':'e':[]):[]
 
+-- >>> lst5
+-- ["abc","de"]
+
 exp1 ls = if not (null ls) then null (head ls) else False
 
 exp2 ls = if null ls then False else if (null.tail) ls then True else False
 
+-- >>> :t exp2
+-- exp2 :: [a] -> Bool
+
 exp3 [] = []
 exp3 (hd:tl) = hd ++ exp3 tl
+
+

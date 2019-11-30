@@ -52,6 +52,7 @@ library
                        Chapter02.SimpleFunctions
                        Chapter02.PatternMatching
                        Chapter02.Records.Records
+                       Chapter02.Data
   
   -- Modules included in this library but not exported.
   -- other-modules:       
@@ -60,7 +61,7 @@ library
   -- other-extensions:    
   
   -- Other library packages from which modules are imported.
-  build-depends:       base >=4.9 && <4.10
+  build-depends:       base ==4.12.0.0
   
   -- Directories containing source files.
   hs-source-dirs:      src
