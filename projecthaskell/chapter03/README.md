@@ -5,3 +5,6 @@
 ```bash
 stack build --test --haddock --no-haddock-hyperlink-source
 ```
+
+* Exercise 3-1
+  - [ ] TODO Add Link to solution
