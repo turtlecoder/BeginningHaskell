@@ -29,4 +29,10 @@ type Model = Integer
 
 data Direction = Forward | Backward deriving Show
 
-type Price = Double 
+type Price = Double
+
+-- >>> :t 'a'
+-- 'a' :: Char
+
+-- >>> import Data.Char
+-- >>> :t toUpper-- toUpper :: Char -> Char
