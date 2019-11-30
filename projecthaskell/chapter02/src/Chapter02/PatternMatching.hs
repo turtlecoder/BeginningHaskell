@@ -57,7 +57,7 @@ fibonacci2 0 = 0
 fibonacci2 1 = 1
 fibonacci2 n = fibonacci2 (n-1) + fibonacci2 (n-2)
 
--- Excercise 2-5 Perfect Match for your Time Machines
+-- Exercise 2-5 Perfect Match for your Time Machines
 countGenders::[Client]->(Integer, Integer, Integer)
 countGenders [] = (0,0,0)
 countGenders (hd:tl) = let (maleCount, femaleCount, otherCount) = countGenders tl
@@ -70,10 +70,12 @@ countGenders (hd:tl) = let (maleCount, femaleCount, otherCount) = countGenders t
                             Company _ _ (Person _ _ gender) _ -> countGender' gender
                             Individual (Person _ _ gender)  _ -> countGender' gender
 
--- Excercise 2-5
+-- Exercise 2-5
 discountTimeMachines :: [TimeMachine] -> Double -> [TimeMachine]
 discountTimeMachines [] _ = []
-discountTimeMacines ((TimeMachine manf model name dir p):tl) discount  = (TimeMachine manf model name dir (p*discount)): (discountTimeMachines tl discount)                                                                        
+discountTimeMachines (TimeMachine manf model name dir p:tl) discount =
+  TimeMachine manf model name dir (p * discount) : discountTimeMachines tl discount
+
 
 
 --
@@ -113,13 +115,13 @@ binom n k        = (binom (n-1) (k-1)) + (binom (n-1) k)
 --
 
 multipleOf :: Integer -> Integer -> Bool
-multipleOf x y = (mod x y) == 0 
+multipleOf x y = mod x y == 0
 
 specialMultiples :: Integer -> String
 specialMultiples n | multipleOf n 2 = show n ++ " is multiple of 2"
 specialMultiples n | multipleOf n 3 = show n ++ " is multiple of 3"
 specialMultiples n | multipleOf n 5 = show n ++ " is multiple of 5"
-specialMultiples n | otherwise = show n ++ " is a beautiful number"
+specialMultiples n = show n ++ " is a beautiful number"
 
 -- Excercise 2-6
 
@@ -137,3 +139,5 @@ specialClient :: Client -> Bool
 specialClient (clientName -> "Mr. Alejandro") = True
 specialClient (responsibility -> "Director") = True
 specialClient _                              = False
+
+-- let x = 1
