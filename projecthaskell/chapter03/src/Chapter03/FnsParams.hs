@@ -9,7 +9,7 @@ import Chapter03.DataTypes
 x = succ 1
 
 map _ [] = []
-map f (x:xs) = (f x):(map f xs)
+map f (x:xs) = f x : map f xs
 
 xn = map succ [1,2,3]
 

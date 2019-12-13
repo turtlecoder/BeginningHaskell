@@ -30,6 +30,7 @@ Actual:
 -- >>> :t swapTriple
 -- swapTriple :: (c, a, b) -> (a, b, c)
 
+
 -}
 swapTriple (x,y,z) = (y,z,x)
 
@@ -117,6 +118,8 @@ filterGovOrgs2 :: [Client a] -> [Client a]
 filterGovOrgs2 cl = filter (\case (GovOrg _ _) -> True
                                   _            -> False) cl
 
+-- End Exercise
+
 duplicateOddsCompose = map (*2) . (filter odd)
 
 duplicateOddsApplicative list = map (*2) $ (filter odd list)
@@ -138,6 +141,15 @@ skipUntilGov = dropWhile (\case { GovOrg {} -> False ; _ -> True })
 isIndividual :: Client a -> Bool
 isIndividual (Individual {} ) = True
 isIndividual _                = False
+
+-- >>> :t (2/)
+-- (2/) :: Fractional a => a -> a
+
+-- >>> :t (/2)
+-- (/2) :: Fractional a => a -> a
+
+-- >>> :t (.)
+-- (.) :: (b -> c) -> (a -> b) -> a -> c
 
 {- Excercise 3-3 -}
 product :: [Integer]->Integer

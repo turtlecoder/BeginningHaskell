@@ -33,13 +33,13 @@ name c = clientName c
 head' [] = Nothing
 head' (a:_) = Just a
 
- 
-    
-minimumClientF :: [(Client i)] -> Maybe (Client i)
+
+
+minimumClientF :: [Client i] -> Maybe (Client i)
 minimumClientF cil = foldl (\jc hd -> case jc of 
-                                        (Just curr) -> if (length (name  hd) < length (name curr))
-                                                       then (Just hd)
-                                                       else (Just curr)
+                                        (Just curr) -> if length (name  hd) < length (name curr)
+                                                       then Just hd
+                                                       else Just curr
                                         Nothing -> Nothing) (head' cil) cil
                      
                      
@@ -52,5 +52,10 @@ allP bl = let
   in
   allP' bl True
 
-allF :: [Bool]-> Bool
-allF al = foldl (\b a -> b && a) True al
+allF :: [Bool] -> Bool
+allF = foldl (&&) True
+
+-- >>> :t foldl
+-- foldl :: Foldable t => (b -> a -> b) -> b -> t a -> b
+-- >>> :t allF
+-- allF :: [Bool] -> Bool
