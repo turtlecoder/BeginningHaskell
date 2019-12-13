@@ -13,28 +13,69 @@ import Data.Function hiding (($))
 maybeString (Just _ ) = "Just"
 maybeString Nothing = "Nothing"
 
+-- >>> :t maybeString
+-- maybeString :: Maybe a -> [Char]
+
+-- >>> :t head
+-- head :: [a] -> a
+
+-- >>> :t fst
+-- fst :: (a, b) -> a
+
 -- Excercise 3-1
-swapTriple:: (a,b,c) -> (b,c,a)
+{-|
+Type Info Guess: swapTriple::(a,b,c) -> (b, c, a)
+
+Actual:
+-- >>> :t swapTriple
+-- swapTriple :: (c, a, b) -> (a, b, c)
+
+
+-}
 swapTriple (x,y,z) = (y,z,x)
 
 
-duplicate:: a -> (a, a)
+{-|
+Type Info Guess: duplicate:: a -> (a,a)
+
+Actual:
+-- >>> :t duplicate
+-- duplicate :: a -> (a, a)
+-}
 duplicate x = (x,x)
 
-nothing :: a -> Maybe a
+{-|
+Type Info Guess: nothing :: a -> Maybe a
+Actual:
+-- >>> :t nothing
+-- nothing :: p -> Maybe a
+-}
 nothing _ = Nothing
 
-index :: Num i => [a] -> [(i,a)]
+{-|
+Type Info Guess: index::[a] -> [(Int, a)]
+
+Actual:
+-- >>> :t index
+-- index :: Num a => [b] -> [(a, b)]
+-}
 index [] = []
 index [x] = [(0,x)]
 index (x:xs) = let indexed@((n,_):_) = index xs
-                   in (n+1, x):indexed
+               in (n+1, x):indexed
 
+{-|
+Type Info Guess: maybeA::[a] -> Char
+
+Actual:
+-- >>> :t maybeA
+-- maybeA :: [a] -> Char
+-}
 maybeA :: [a] -> Char
 maybeA [] = 'a'
 
 map _ [] = []
-map f (x:xs) = (f x) : (map f xs)
+map f (x:xs) = f x : map f xs
 
 apply3f2 :: (Integer -> Integer) -> Integer -> Integer
 apply3f2 f x = 3 * f (x+2)
@@ -77,6 +118,8 @@ filterGovOrgs2 :: [Client a] -> [Client a]
 filterGovOrgs2 cl = filter (\case (GovOrg _ _) -> True
                                   _            -> False) cl
 
+-- End Exercise
+
 duplicateOddsCompose = map (*2) . (filter odd)
 
 duplicateOddsApplicative list = map (*2) $ (filter odd list)
@@ -98,6 +141,15 @@ skipUntilGov = dropWhile (\case { GovOrg {} -> False ; _ -> True })
 isIndividual :: Client a -> Bool
 isIndividual (Individual {} ) = True
 isIndividual _                = False
+
+-- >>> :t (2/)
+-- (2/) :: Fractional a => a -> a
+
+-- >>> :t (/2)
+-- (/2) :: Fractional a => a -> a
+
+-- >>> :t (.)
+-- (.) :: (b -> c) -> (a -> b) -> a -> c
 
 {- Excercise 3-3 -}
 product :: [Integer]->Integer
