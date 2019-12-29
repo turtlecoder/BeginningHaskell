@@ -41,7 +41,7 @@ classifyClientsA clients =
 
 
 
--- classify clients by partition
+-- classify clients by buckets, and converting into sets
 classifyClientsB :: Ord i => [Client i] -> Map ClientKind (Set (Client i))
 classifyClientsB clients = let (a, b, c) = L.foldr appendListsFn ([],[],[]) clients
                                appendListsFn g@(GovOrg _ _) (gs,cs,is) = (g:gs, cs, is)
