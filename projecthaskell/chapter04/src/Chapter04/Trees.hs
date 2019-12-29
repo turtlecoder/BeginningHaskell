@@ -20,3 +20,12 @@ levelsPictureTree = levels pictureTree
 fmapPictrueTree = fmap (*2) pictureTree
 
 foldablePictureTree = Data.Foldable.foldr (+) 0 pictureTree
+
+-- >>> pictureTree
+-- Node {rootLabel = 1, subForest = [Node {rootLabel = 2, subForest = [Node {rootLabel = 3, subForest = []},Node {rootLabel = 4, subForest = []},Node {rootLabel = 5, subForest = []}]},Node {rootLabel = 6, subForest = []}]}
+
+-- >>> flattenPictureTree
+-- [1,2,3,4,5,6]
+
+-- >>> levelsPictureTree
+-- [[1],[2,6],[3,4,5]]
