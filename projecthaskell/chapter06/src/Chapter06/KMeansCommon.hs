@@ -11,6 +11,7 @@ class (Default v, Ord v) => Vector v where
 
 instance Vector (Double, Double) where
   distance (a,b) (c,d) = sqrt $ (c-a)*(c-a) + (d-b)*(d-b)
+  -- Calculates the average of list of 2D vectors
   centroid lst = let (u,v) = foldr (\(a,b) (c,d) -> (a+c, b+d)) (0.0, 0.0) lst
                      n = fromIntegral $ length lst
                  in (u/n, v/n)
@@ -26,3 +27,12 @@ instance Vectorizable (Double,Double) (Double, Double) where
 
 
 type VectorInitFunc e v = Int -> [e] -> [v]
+
+-- >>> :t id
+-- id :: a -> a
+
+-- >>> :t centroid
+-- centroid :: Vector v => [v] -> v
+
+-- >>> :t (centroid. map toVector)
+-- (centroid. map toVector) :: Vectorizable e c => [e] -> c

@@ -16,6 +16,7 @@ listLength alist = runST $ do l <- newSTRef 0
                                       traverseList (_:xs) l = do modifySTRef' l (+1)
                                                                  traverseList xs l
 
+-- Exercise 6-7: Mutable ST, Probably Works!
 kMeans' :: (Num steps, Vector point, Vectorizable point centroid) => [point] -> Double -> ([centroid], steps)
 kMeans' points threshold = runST $ do
   stepsRef <- newSTRef 0

@@ -47,6 +47,15 @@ clusterAssignmentPhase centroids points =
         in M.adjust (pt:) chosenCentroid map
   in foldr foldingFunc  initialMap points
 
+-- >>> zip [(1,2), (2,3), (5,6)] (repeat [])
+-- [((1,2),[]),((2,3),[]),((5,6),[])]
+
+-- >>> :t M.fromList
+-- M.fromList :: Ord k => [(k, a)] -> M.Map k a
+
+-- >>> :t M.adjust
+-- M.adjust :: Ord k => (a -> a) -> k -> M.Map k a -> M.Map k a
+
 -- Calculates a new centroid for each old centroid and returns a map to them
 -- this point-style composition is not a very beginner friendly
 -- Here's whats happening here
@@ -65,3 +74,8 @@ initializeSimple n e = (fromIntegral n, fromIntegral n) : initializeSimple (n-1)
 
 
 kMeansTest = kMeans initializeSimple 2 0.00001 ([(1,1), (1,2), (4,4), (5,5),(7,7),(-1,0),(10,7)]::[(Double, Double)])
+
+-- >>> kMeansTest
+-- ([(0.3333333333333333,1.0),(6.5,5.75)],2)
+
+

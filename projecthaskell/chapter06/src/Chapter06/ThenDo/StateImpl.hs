@@ -11,3 +11,10 @@ thenDo currentState nextState = \s -> let (resultOfS, stateAfterS) = currentStat
 thenDoUncurried :: (s -> (a,s)) -> (a -> s -> (b,s)) -> (s-> (b,s))
 thenDoUncurried f g s = let (resultOfF, stateAfterF) = f s
                         in g resultOfF stateAfterF
+
+-- >>> :t ($)-- ($) :: (a -> b) -> a -> b
+
+-- >>> :t Just-- Just :: a -> Maybe a
+
+-- >>> :t (Just $ (\a -> b))
+

@@ -1,6 +1,4 @@
 flags: {}
 packages:
 - .
-extra-deps:
-- lens-4.16.1
-resolver: lts-9.21
+resolver: lts-14.16
