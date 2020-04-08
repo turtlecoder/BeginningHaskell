@@ -11,6 +11,10 @@ data Person = Person String String
 firstName :: Simple Lens Person String
 firstName = lens (\(Person f _) -> f) (\(Person _ l) newF -> Person newF l)
 
+-- >>> :t firstName
+-- firstName
+--   :: Functor f => (String -> f String) -> Person -> f Person
+
 lastName :: Simple Lens Person String
 lastName = lens (\(Person _ l) -> l) (\(Person f _) newL -> Person f newL)
 
