@@ -30,8 +30,7 @@ logInformationForM infos = forM_ infos $ \s -> tell (s ++ "\n")
 
 runningLogInformationFor = runWriter $ logInformationForM ["one", "two", "three"]
 
--- Excercise 7-5
-
+-- Exercise 7-5
 -- sequence implementation of sequence for lists
 sequence :: (Monad m) => [m x] -> m [x]
 sequence (hd:tl) = do x <- hd

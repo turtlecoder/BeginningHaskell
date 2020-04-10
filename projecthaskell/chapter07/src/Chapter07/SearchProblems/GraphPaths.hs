@@ -48,14 +48,16 @@ interleavelists = [1,2] `interleave` [3,4]
 -- Excercise 7-4: Desugar Monad Notation
 desugaredPathsL :: [(Int, Int)] -> Int -> Int -> Logic [Int]
 desugaredPathsL edges start end =
-  let e_paths = choices edges >>=
-                (\(e_start, e_end) -> (guard $ e_start == e_end) >>
-                  ((pathsL edges e_end end) >>=
-                    (\subpath -> return $ start:subpath)))
-  in if start == end then return [end] `mplus` e_paths else e_paths
+  let e_paths =
+        choices edges >>=
+        (\(e_start, e_end) ->
+           guard (e_start == e_end) >> (pathsL edges e_end end >>= (\subpath -> return $ start : subpath)))
+   in if start == end
+        then return [end] `mplus` e_paths
+        else e_paths
 
 
--- Somethign is wrong here, probably copied the code incorrectly
+-- Something is wrong here, probably copied the code incorrectly
 pathsLFair :: [(Int, Int)] -> Int -> Int -> Logic [Int]
 pathsLFair edges start end =
   let e_paths = choices edges >>-

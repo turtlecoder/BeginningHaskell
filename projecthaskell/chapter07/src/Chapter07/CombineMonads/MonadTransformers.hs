@@ -27,7 +27,6 @@ runReaderWriter = runWriter $ runReaderT readerWriterExample 3
 
 -- Excercise 7-6
 -- Calculate the factorial using 2 state monads
-
 factorial :: StateT Integer (State Integer) ()
 factorial = do fac <- lift get
                n <- get

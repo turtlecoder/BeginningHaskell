@@ -21,10 +21,12 @@ nothingMPlusJust5 = Nothing `mplus` Just 5
 
 justBroken2 = [1] `mplus` broken2 73
 
-
--- Excercise 7-2
+-- Exercise 7-2
 find_ ::  (a -> Bool) -> [a] -> Maybe a
 find_     _              []     = Nothing
-find_     pred           (a:as) = if (pred a) then (Just a) else Nothing `mplus` (find_ pred as)
+find_     pred           (a:as) =
+  if pred a
+    then Just a
+    else Nothing `mplus` find_ pred as
 
 

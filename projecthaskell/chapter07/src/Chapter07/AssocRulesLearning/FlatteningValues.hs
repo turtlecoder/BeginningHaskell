@@ -57,7 +57,7 @@ purchaseToTransaction :: Purchase -> Transaction
 purchaseToTransaction (Purchase client productList) =
   Transaction $ clientToPurchaseInfo client `S.union` productsToPurchaseInfo productList
 
--- Excercise 7-3
+-- Exercise 7-3
 clientToPurchaseInfo :: Client -> Set PurchaseInfo
 clientToPurchaseInfo client = case client of
   GovOrg clientName -> S.fromList [InfoClientKind KindGovOrg]
