@@ -25,14 +25,11 @@ usingMonadClasses = runWriter (runReaderT readerWriterExample 3)
 -- using monad explicits
 usingMonadsExplicitly = runRWS readerWriterExampleMonadClasses 3 0
 
--- Excercise 7-6 Paths on Monad Trasformers
+-- Exercise 7-7
 -- Write a new version of pathsWriter that holds the graph as read-only context
 -- Use MonadReader for reading the graph as context
 -- Use MonadWriter for writing the path
 -- Use ReaderT r (WriterT w []) a and RWST r w s a
-
-
-
 pathsWriter :: (MonadReader [(Int, Int)] m, MonadWriter [[Int]] m) => Int -> Int -> m ()
 pathsWriter start end = do edges <- ask
                            let paths edges start end =
@@ -50,6 +47,6 @@ pathsWriter start end = do edges <- ask
 
 runPathWriterRW = runWriter (runReaderT (pathsWriter 2013 2558) graph1)
 
-runPathWriterRWS = runRWS (pathsWriter 2013 2558) graph1 $ ()
+runPathWriterRWS = runRWS (pathsWriter 2013 2558) graph1 ()
 
 
